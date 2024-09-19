@@ -1,16 +1,14 @@
-
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-import {jwtDecode} from 'jwt-decode'; 
+import { useParams } from 'react-router-dom';
 
 export default function CreateItemListing() {
+  const { id } = useParams(); // Extract auction ID from URL
   const [imagePreviews, setImagePreviews] = useState([]);
   const [images, setImages] = useState([]);
-
   const [auctions, setAuctions] = useState([]);
   const [filteredAuctions, setFilteredAuctions] = useState([]);
-  const [selectedAuction, setSelectedAuction] = useState("");
-
+  const [selectedAuction, setSelectedAuction] = useState(id); // Set initial state to passed auction ID
   const [name, setName] = useState("");
   const [startingPrice, setStartingPrice] = useState("");
   const [description, setDescription] = useState("");
@@ -20,11 +18,8 @@ export default function CreateItemListing() {
   const [material, setMaterial] = useState("");
   const [condition, setCondition] = useState("");
 
-  
   // Fetch auctions from the backend when the component mounts
   useEffect(() => {
-
-   
     axios.get("http://localhost:8070/auction/all")
       .then((res) => {
         setAuctions(res.data);
@@ -38,7 +33,6 @@ export default function CreateItemListing() {
   useEffect(() => {
     const filtered = auctions.filter(auction => auction.category === category);
     setFilteredAuctions(filtered);
-    setSelectedAuction(""); // Reset the auction when category changes
   }, [category, auctions]);
 
   // Image upload handler
@@ -62,7 +56,7 @@ export default function CreateItemListing() {
     formData.append("material", material);
     formData.append("condition", condition);
     formData.append("auction", selectedAuction);
-    
+
     images.forEach((image) => {
       formData.append("images", image);
     });
@@ -70,31 +64,28 @@ export default function CreateItemListing() {
     axios.post("http://localhost:8070/item/add", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
-        
       },
     })
-    
-    .then((res) => {
-      const itemId = res.data.itemId; // Assuming the backend returns the item ID
-      return axios.post("http://localhost:8070/auction/add-to-auction", {
-        auctionId: selectedAuction,
-        itemId: itemId
-      },)
-      .then(() => {
-        alert("Item added to auction successfully");
+      .then((res) => {
+        const itemId = res.data.itemId; // Assuming the backend returns the item ID
+        return axios.post("http://localhost:8070/auction/add-to-auction", {
+          auctionId: selectedAuction,
+          itemId: itemId
+        })
+          .then(() => {
+            alert("Item added to auction successfully");
+          })
+          .catch((err) => {
+            alert(err.message);
+          });
       })
       .catch((err) => {
         alert(err.message);
       });
-    })
-    .catch((err) => {
-      alert(err.message);
-    });
   };
 
   return (
     <div className="container mt-5 p-4 bg-light rounded shadow-sm">
-     
       <h1 className="text-center mb-4">Create Item Listing</h1>
       <form onSubmit={sendData}>
         {/* Image Upload Section */}
@@ -162,7 +153,7 @@ export default function CreateItemListing() {
         {/* Auction Selection Section */}
         <div className="row mb-3">
           <div className="col-md-6 mb-3">
-            <label className="form-label">Select Auction:</label>
+            <label className="form-label">Selected Auction:</label>
             <select className="form-control" onChange={(e) => setSelectedAuction(e.target.value)} value={selectedAuction} disabled={filteredAuctions.length === 0}>
               <option value="" disabled>{filteredAuctions.length === 0 ? "No auctions available" : "Select an Auction"}</option>
               {filteredAuctions.map((auction) => (

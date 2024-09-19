@@ -109,7 +109,8 @@ export default function Auctions() {
                         <h5 className="card-text">{auction.startingDateTime}</h5>
                         <div className="d-flex justify-content-between">
                           <Link to={`/auction/${auction._id}`} className="btn btn-secondary">View Auction</Link>
-                          <a href="#" className="btn btn-outline-danger">Register to auction</a>
+                          <Link to={`/RegisterToAuction/${auction._id}`} className="btn btn-outline-danger">Register to auction</Link>
+                          
                         </div>
                       </div>
                     </div>

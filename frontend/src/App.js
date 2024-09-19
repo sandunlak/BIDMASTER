@@ -23,6 +23,8 @@ import SellerLogin from './components/SellerLogin';
 import AdminPanel from './components/AdminPanel';
 import AuctionManagement from './components/AuctionManagement';
 import AuctionDetail from './components/AuctionDetail';
+import RegisterToAuction from './components/RegisterToAuction';
+import RegisterToAuctionAsSeller from './components/RegisterToAuctionAsSeller';
 
 
 function App() {
@@ -38,7 +40,7 @@ function App() {
           <Route path="/Auctions" element={<Auctions/>} />
           <Route path="/AuctionHouses" element={<AuctionHouses/>} />
           
-          <Route path="/AddItems" element={<CreateItemListing/>} />
+          <Route path="/AddItems/:id" element={<CreateItemListing/>} />
           
           <Route path="/Arts" element={<Arts/>}/>
           <Route path="/Jewellery" element={<Jewellery/>}/>
@@ -52,7 +54,8 @@ function App() {
           <Route path="/Admin" element={<AdminPanel/>}></Route>
           <Route path="/AuctionManagement" element={<AuctionManagement/>}></Route>
           <Route path="/auction/:id" element={<AuctionDetail/>} />
-
+          <Route path="/RegisterToAuction/:id" element={<RegisterToAuction/>} />
+          <Route path="/RegisterToAuction/:id/RegisterToAuctionAsSeller" element={<RegisterToAuctionAsSeller/>} />
           
 
 

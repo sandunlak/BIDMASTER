@@ -3,6 +3,7 @@ import { Container, Row, Col, Button, Image } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import '../AuctionDetail.css';
+import { Link } from 'react-router-dom';
 
 export default function AuctionDetail() {
   const { id } = useParams(); // Extract auction ID from URL
@@ -86,7 +87,7 @@ export default function AuctionDetail() {
         </Col>
         <Col md={8} className="auction-register">
           <Button variant="secondary" size="lg" block>
-            Register to auction
+          <Link to={`/RegisterToAuction/${auction._id}`} className="btn btn-outline-danger">Register to auction</Link>
           </Button>
         </Col>
       </Row>
