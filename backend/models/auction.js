@@ -23,6 +23,7 @@ const AuctionSchema =  new Schema({
 
         type: Schema.Types.ObjectId,
         ref: 'Item' // Name of the model you are referring to
+        
     }],
     startingDateTime: {
         type: Date, // Use the Date type for date and time
@@ -45,5 +46,3 @@ module.exports = Auction;
 
 
     
-
-

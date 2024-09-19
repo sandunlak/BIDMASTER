@@ -49,7 +49,6 @@ router.route("/all").get(async (req, res) => {
     }
   });
   
-
   router.route("/:id").get(async (req, res) => {
     const { id } = req.params;
     try {
@@ -77,6 +76,9 @@ router.route("/all").get(async (req, res) => {
 });
 
 
+  
+
+
 
 
   // Route to add item to auction
@@ -96,13 +98,7 @@ router.route("/all").get(async (req, res) => {
             return res.status(404).json({ message: "Item not found" });
         }
 
-        // auction.items.push(itemId);
-        auction.items.push({
-            name: item.name,
-            description: item.description,
-            startingPrice: item.startingPrice,
-            images: [{ data: imageURL }] // Ensure proper image data is pushed
-        });
+        auction.items.push(itemId);
 
         await auction.save();
 

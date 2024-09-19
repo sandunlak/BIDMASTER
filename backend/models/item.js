@@ -26,13 +26,14 @@ const ItemSchema  = new Schema({
         required: false
     },
     features: {
-        type: Array,
+        type: String,
         required: false
     },
     material: {
         type: String,
         required: false
     },
+    auction: mongoose.Schema.Types.ObjectId,
     condition:{
         type: String,
         required: false

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import {jwtDecode} from 'jwt-decode'; 
@@ -20,14 +21,6 @@ export default function CreateItemListing() {
   const [condition, setCondition] = useState("");
 
   
-
-  
-
-
-
-
-  
-
   // Fetch auctions from the backend when the component mounts
   useEffect(() => {
 
