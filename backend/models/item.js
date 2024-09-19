@@ -2,10 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 
-
-
-
-
 const ItemSchema  = new Schema({
 
     name: {
@@ -47,6 +43,7 @@ const ItemSchema  = new Schema({
           contentType: String // Store the image content type (e.g., 'image/jpeg')
         }
       ],
+      
     }, 
     {
       timestamps: true, 

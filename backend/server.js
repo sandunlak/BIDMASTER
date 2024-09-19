@@ -26,16 +26,16 @@ connection.once("open",() => {  //Open the created connection
 })
 
 
-const registerRouter = require("./routes/register.js"); // Import your new router
-const addproductRouter = require("./routes/addproduct.js");
+
 const itemRouter = require("./routes/items"); 
 const sellerRouter = require("./routes/sellers");
+const auctionRouter = require("./routes/auctions");
 
 
-app.use("/registermodel", registerRouter);
-app.use("/addproductmodel", addproductRouter); // Use the new router
+
 app.use("/item",itemRouter);
 app.use("/seller",sellerRouter);
+app.use("/auction",auctionRouter);
 
 
 app.listen(PORT,() => {

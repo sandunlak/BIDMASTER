@@ -13,11 +13,13 @@ const sellerSchema = new Schema({
     },
     email:  {
         type: String, 
-        required: true
+        required: true,
+        unique:true
     },
     username:  {
         type: String, 
-        required: true
+        required: true,
+        unique:true
     },
     password:  {
         type: String, 
@@ -41,20 +43,19 @@ const sellerSchema = new Schema({
     },
     contactInfo:  {
         type: String, 
-        required: true
+        required: true,
+        unique:true
     },
     paymentMethod:  {
         type: String, 
         required: true
     },
-    NicDetails:  {
-        type: String, 
-        required: true
-    },
+    
     birthday: {
         type: Date, 
         required: true
     },
+    
 
 });
 

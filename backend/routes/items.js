@@ -1,91 +1,106 @@
 const router = require("express").Router();
-let Item = require("../models/item");
+const Item = require("../models/item");
 const multer = require('multer');
-const path = require('path');
+const authMiddleware = require('./authMiddleware'); // Import authMiddleware
 
 
-const storage = multer.memoryStorage(); // Store image in memory as a buffer
+// Middleware for authentication
+// Memory storage for images
+const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-router.route("/add").post(upload.array('images', 10), (req, res) =>
-    {
+// Route to add a new item
+// Route to add a new item
+router.post("/add", upload.array('images', 10), async (req, res) => {
+    try {
+        const { name, startingPrice, description, category, brand, features, material, condition} = req.body;
+        const images = req.files.map(file => ({
+            data: file.buffer,
+            contentType: file.mimetype
+        }));
 
-    const name = req.body.name;
-    const startingPrice = req.body.startingPrice;
-    const description = req.body.description;
-    // const image = req.body.image;
-    const category = req.body.category;
+        const newItem = new Item({
+            name,
+            startingPrice,
+            description,
+            images,
+            category,
+            brand,
+            features,
+            material,
+            condition,
+            
+           
+        });
 
-    const brand = req.body.brand;
-    const features = req.body.features;
-    const material = req.body.material;
-    const condition = req.body.condition;
-
-   // Prepare image data for saving in the database
-   const images = req.files.map(file => ({
-
-    data: file.buffer, // Binary data of the image
-    contentType: file.mimetype // MIME type of the image
-
-    }));
-
-    const newItem = new Item({
-        name,
-        startingPrice,
-        description,
-        images,
-        category,
-
-        brand,
-        features,
-        material,
-        condition
-    })
-
-    newItem.save().then(()=>{   //pass values to database(Create)
-        res.json("Item Added")
-    }).catch((err)=>{
-        console.log(err);
-    }) 
-
-})
-
-
-// router.route("/").get((req,res)=>{
-//     Item.find().then((items)=>{
-//         res.json(items)
-//         }).catch((err)=>{
-//             console.log(err);
-//             })
-// })
-
-// Route to get items with optional category filter
-router.route("/").get((req, res) => {
-    const { category } = req.query; // Get the category from query params
-
-    let filter = {};
-    if (category) {
-        filter.category = category; // Filter items by category
+        const savedItem = await newItem.save();
+        res.status(201).json({
+            message: "Item added successfully",
+            itemId: savedItem._id
+        });
+    } catch (err) {
+        res.status(500).json({
+            message: "Error adding item",
+            error: err.message
+        });
     }
+});
 
-    Item.find(filter).then((items) => {
-        // Convert each image buffer to a base64 string
+// Route to get items with optional filters
+router.get('/', async (req, res) => {
+    try {
+        const { search, category, brand, minPrice, maxPrice } = req.query;
+        let filter = {};
+        
+        if (search) {
+            filter.name = { $regex: search, $options: "i" }; // case-insensitive search
+        }
+        if (category) {
+            filter.category = category;
+        }
+        if (brand) {
+            filter.brand = brand;
+        }
+        if (minPrice || maxPrice) {
+            filter.startingPrice = {
+                ...(minPrice && { $gte: Number(minPrice) }),
+                ...(maxPrice && { $lte: Number(maxPrice) })
+            };
+        }
+        const items = await Item.find(filter);
         const itemsWithBase64Images = items.map(item => ({
-            ...item._doc, // Include all other fields
+            ...item._doc,
             images: item.images.map(image => ({
                 data: `data:${image.contentType};base64,${image.data.toString('base64')}`
             }))
         }));
-        res.json(itemsWithBase64Images); // Send the filtered items back
-    }).catch((err) => {
-        console.log(err);
-        res.status(500).json({ error: "Failed to fetch items" });
-    });
+        res.json(itemsWithBase64Images);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Server error");
+    }
 });
 
-
-
-
-
+// Route to delete an item by name
+router.delete('/delete/:name', async (req, res) => {
+    try {
+        const { name } = req.params;
+        const deletedItem = await Item.findOneAndDelete({ name });
+        if (!deletedItem) {
+            return res.status(404).json({
+                message: "Item not found"
+            });
+        }
+        res.json({
+            message: "Item deleted successfully",
+            itemName: name
+        });
+    } catch (err) {
+        res.status(500).json({
+            message: "Error deleting item",
+            error: err.message
+        });
+    }
+});
 
 module.exports = router;
