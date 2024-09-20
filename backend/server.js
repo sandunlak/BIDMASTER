@@ -25,25 +25,17 @@ connection.once("open",() => {  //Open the created connection
     console.log("MongoDb connection success!");
 })
 
+const studentRouter = require("./routes/students.js"); //Add students.js file
+const registerRouter = require("./routes/register.js"); // Import your new router
+const addproductRouter = require("./routes/addproduct.js");
+const adddeliveryRouter = require("./routes/adddelivery.js");
 
 
-const itemRouter = require("./routes/items"); 
-const sellerRouter = require("./routes/sellers");
-const auctionRouter = require("./routes/auctions");
-
-
-
-app.use("/item",itemRouter);
-app.use("/seller",sellerRouter);
-app.use("/auction",auctionRouter);
-
+app.use("/student",studentRouter);
+app.use("/registermodel", registerRouter);
+app.use("/addproductmodel", addproductRouter); // Use the new router
+app.use("/adddeliverymodel",adddeliveryRouter);
 
 app.listen(PORT,() => {
     console.log(`server is up and running on port number: ${PORT}`)
 })
-
-//back end URL for item list manupulation
-
-
-
-

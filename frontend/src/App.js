@@ -1,71 +1,33 @@
 
 import './App.css';
-import Header from  './components/Header';
-import {BrowserRouter as Router,Route, Routes} from "react-router-dom";
+import AddStudent from './components/AddStudent';
+import Header from './components/Header';
+import AllStudents from './components/AllStudents';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Import Routes
+import AddSalesDetails from './components/AddSalesDetails';
+import ReadSalesDetails from './components/ReadSalesDetails';
+import AddProduct from './components/AddProduct';
+import ReadProduct from './components/ReadProduct';
+import Adddelivery from './components/Adddelivery';
 
-import Auctions from './components/Auctions';
-import AuctionHouses from './components/AuctionHouses';
-import Footer from './components/Footer';
-
-
-import ItemListPage from '../src/components/ItemListPage';
-import CreateItemListing from './components/CreateItemListing';
-
-import Arts from './components/Arts';
-import Jewellery from './components/Jewellery';
-import Collectibles from './components/Collectibles';
-
-import ChooseRole from './components/BidderOrSeller';
-import Login from './components/Login';
-import SellerAccount from './components/SellerAccount';
-import SellerSignUp from './components/SellerSignup';
-import SellerLogin from './components/SellerLogin';
-import AdminPanel from './components/AdminPanel';
-import AuctionManagement from './components/AuctionManagement';
-import AuctionDetail from './components/AuctionDetail';
-import RegisterToAuction from './components/RegisterToAuction';
-import RegisterToAuctionAsSeller from './components/RegisterToAuctionAsSeller';
 
 
 function App() {
+
   return (
     <Router>
-    <div className="App">
-      <main>
+      <div>
         <Header />
-       
-     
-        <Routes>
-
-          <Route path="/Auctions" element={<Auctions/>} />
-          <Route path="/AuctionHouses" element={<AuctionHouses/>} />
+        <Routes> {/* Wrap Route components inside Routes */}
+          <Route path="/enter" exact element={<AddSalesDetails />} />
+          <Route path="/readproduct" exact element={<ReadProduct/>} />
+          <Route path="/adddelivery" exact element={<Adddelivery/>} />
           
-          <Route path="/AddItems/:id" element={<CreateItemListing/>} />
-          
-          <Route path="/Arts" element={<Arts/>}/>
-          <Route path="/Jewellery" element={<Jewellery/>}/>
-          <Route path="/Collectibles" element={<Collectibles/>}/>
-          
-          <Route path="/ChooseRole" element={<ChooseRole/>}/>
-          <Route path="/Login" element={<Login/>}/>
-          <Route path="/SellerLogin" element={<SellerLogin/>}/>
-          <Route path="/SellerAccount" element={<SellerAccount/>}/>
-          <Route path="/SellerSignUp" element={<SellerSignUp/>}/>
-          <Route path="/Admin" element={<AdminPanel/>}></Route>
-          <Route path="/AuctionManagement" element={<AuctionManagement/>}></Route>
-          <Route path="/auction/:id" element={<AuctionDetail/>} />
-          <Route path="/RegisterToAuction/:id" element={<RegisterToAuction/>} />
-          <Route path="/RegisterToAuction/:id/RegisterToAuctionAsSeller" element={<RegisterToAuctionAsSeller/>} />
-          
-
-
-          <Route path="/ItemListView" element={<ItemListPage/>} />
-
+          <Route path="/addproduct" exact element={<AddProduct/>} />
+          <Route path="/add" exact element={<AddStudent />} />
+          <Route path="/read" exact element={<ReadSalesDetails/>} />
         </Routes>
-
-        <Footer />
-        </main>
-    </div>
+      </div>
     </Router>
   );
 }
