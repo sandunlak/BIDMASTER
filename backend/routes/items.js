@@ -70,6 +70,7 @@ router.get('/', async (req, res) => {
         }
 
         const items = await Item.find(filter);
+        
 
         const itemsWithBase64Images = items.map(item => ({
             ...item._doc,
@@ -112,4 +113,26 @@ router.delete('/delete/:name', async (req, res) => {
     }
 });
 
+
+// Route to delete an item by ID
+router.delete('/delete/:id', async (req, res) => {
+    try {
+        const { id } = req.params; // Get the item ID from the request parameters
+        const deletedItem = await Item.findByIdAndDelete(id); // Find and delete by ID
+        if (!deletedItem) {
+            return res.status(404).json({
+                message: "Item not found"
+            });
+        }
+        res.json({
+            message: "Item deleted successfully",
+            itemId: id
+        });
+    } catch (err) {
+        res.status(500).json({
+            message: "Error deleting item",
+            error: err.message
+        });
+    }
+});
 module.exports = router;

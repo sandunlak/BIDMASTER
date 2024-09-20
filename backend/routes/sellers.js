@@ -134,6 +134,31 @@ router.put('/me', authMiddleware, async (req, res) => {
 });
 
 
+// Route to get all sellers
+router.get("/all", async (req, res) => {
+  try {
+      const sellers = await Seller.find({}, '-password -username'); // Exclude password and username
+      res.json(sellers);
+  } catch (error) {
+      console.error(error);
+      res.status(500).send("Server error");
+  }
+});
+
+// Route to delete a seller by ID
+router.delete('/delete/:id', async (req, res) => {
+  try {
+      const { id } = req.params;
+      const deletedSeller = await Seller.findByIdAndDelete(id);
+      if (!deletedSeller) {
+          return res.status(404).json({ message: "Seller not found" });
+      }
+      res.json({ message: "Seller deleted successfully", sellerId: id });
+  } catch (err) {
+      res.status(500).json({ message: "Error deleting seller", error: err.message });
+  }
+});
+
 
 
 module.exports = router;

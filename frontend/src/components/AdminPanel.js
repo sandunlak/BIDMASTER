@@ -13,7 +13,7 @@ export default function AdminPanel() {
                         <div className="card-body">
                             <h5 className="card-title">Item Management</h5>
                             <p className="card-text">Manage your items here. You can add, edit, or delete items.</p>
-                            <Link to="/admin/items" className="btn btn-dark">Go to Item Management</Link>
+                            <Link to="/Admin/items" className="btn btn-dark">Go to Item Management</Link>
                         </div>
                     </div>
                 </div>
@@ -33,7 +33,7 @@ export default function AdminPanel() {
                         <div className="card-body">
                             <h5 className="card-title">Seller Management</h5>
                             <p className="card-text">Manage sellers here. You can view or manage seller profiles.</p>
-                            <Link to="/admin/sellers" className="btn btn-dark">Go to Seller Management</Link>
+                            <Link to="/Admin/sellers" className="btn btn-dark">Go to Seller Management</Link>
                         </div>
                     </div>
                 </div>

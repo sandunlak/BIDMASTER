@@ -26,6 +26,8 @@ import AuctionDetail from './components/AuctionDetail';
 import RegisterToAuction from './components/RegisterToAuction';
 import RegisterToAuctionAsSeller from './components/RegisterToAuctionAsSeller';
 import AdminLogin from './components/AdminLogin';
+import ManageItems from './components/ManageItems';
+import ManageSellers from './components/ManageSellers';
 
 
 function App() {
@@ -58,6 +60,9 @@ function App() {
           <Route path="/RegisterToAuction/:id" element={<RegisterToAuction/>} />
           <Route path="/RegisterToAuction/:id/RegisterToAuctionAsSeller" element={<RegisterToAuctionAsSeller/>} />
           <Route path="/AdminLogin" element={<AdminLogin/>}></Route>
+
+          <Route path="/Admin/items" element={<ManageItems/>} />
+          <Route path="/Admin/sellers" element={<ManageSellers/>} />
 
 
           <Route path="/ItemListView" element={<ItemListPage/>} />

@@ -53,7 +53,7 @@ export default function AuctionHouses(props) {
                             <Card.Body>
                                 <Card.Text>
                                     <br />
-                                    {Address1}
+                                    {Address2}
                                 </Card.Text>
                             </Card.Body>
                         </Card>
@@ -65,7 +65,7 @@ export default function AuctionHouses(props) {
                             <Card.Body>
                                 <Card.Text>
                                     <br />
-                                     {Address1}
+                                     {Address3}
                                 </Card.Text>
                             </Card.Body>
                         </Card>
