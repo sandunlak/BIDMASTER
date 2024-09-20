@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 
-export default function Login(){
+export default function AdminLogin(){
 
 
     const [username, setUsername] = useState('');
@@ -28,7 +28,7 @@ export default function Login(){
             />
           </div>
 
-          <h2 className="text-center mb-4">Bidder Login</h2>
+          <h2 className="text-center mb-4">Admin Login</h2>
           <form onSubmit={handleSubmit}>
             <div className="form-group">
               <label htmlFor="username">Username</label>
@@ -61,9 +61,10 @@ export default function Login(){
             </button>
           </form>
           <div className="links mt-3">
-            <a href="/signup" className="link">Don't have an account?</a><br></br>
-            <a href="/SellerLogin" className="link ml-3">Seller?</a><br></br>
-            <a href="/AdminLogin" className="link ml-3">Admin?</a>
+            
+            <a href="/Login" className="link ml-3">Bidder?</a><br></br>
+            <a href="/SellerLogin" className="link ml-3">Seller?</a>
+            
           </div>
         </div>
       </div>

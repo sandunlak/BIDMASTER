@@ -1,3 +1,4 @@
+
 const router = require("express").Router();
 const Item = require("../models/item");
 const multer = require('multer');
@@ -9,7 +10,7 @@ const upload = multer({ storage: storage });
 // Route to add a new item
 router.route("/add").post(upload.array('images', 10), async (req, res) => {
     try {
-        const { name, startingPrice, description, category, brand, features, material, condition } = req.body;
+        const { name, startingPrice, description, category, brand, features, material, condition,seller } = req.body;
 
         const images = req.files.map(file => ({
             data: file.buffer,
@@ -25,7 +26,8 @@ router.route("/add").post(upload.array('images', 10), async (req, res) => {
             brand,
             features,
             material,
-            condition
+            condition,
+            seller
         });
 
         const savedItem = await newItem.save();

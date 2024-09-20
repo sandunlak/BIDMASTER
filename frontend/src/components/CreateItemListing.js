@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 export default function CreateItemListing() {
+
+  const navigate = useNavigate(); // Initialize navigate
+
   const { id } = useParams(); // Extract auction ID from URL
   const [imagePreviews, setImagePreviews] = useState([]);
   const [images, setImages] = useState([]);
@@ -17,6 +21,28 @@ export default function CreateItemListing() {
   const [features, setFeatures] = useState("");
   const [material, setMaterial] = useState("");
   const [condition, setCondition] = useState("");
+
+  const [sellerData, setSellerData] = useState("");
+
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+        axios.get('http://localhost:8070/seller/me', {
+            headers: { 'authToken': token }
+        })
+        .then(response => {
+            if (response.data) {
+                setSellerData(response.data);
+                
+            }
+        })
+        .catch(error => {
+            console.error("There was an error fetching the seller data!", error);
+        });
+    } else {
+        console.error("No token found");
+    }
+}, []);
 
   // Fetch auctions from the backend when the component mounts
   useEffect(() => {
@@ -56,6 +82,7 @@ export default function CreateItemListing() {
     formData.append("material", material);
     formData.append("condition", condition);
     formData.append("auction", selectedAuction);
+    formData.append("seller",sellerData);
 
     images.forEach((image) => {
       formData.append("images", image);
@@ -64,6 +91,7 @@ export default function CreateItemListing() {
     axios.post("http://localhost:8070/item/add", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
+        
       },
     })
       .then((res) => {
@@ -84,8 +112,24 @@ export default function CreateItemListing() {
       });
   };
 
+  const handleRegisterAuction = () => {
+    axios
+      .post("http://localhost:8070/auction/register", {
+        auctionId: selectedAuction,
+        userId: sellerData._id, // Assuming sellerData has _id
+      })
+      .then(() => {
+        alert("Registered for the auction successfully");
+        navigate("/ItemListView"); // Navigate to ItemListView on success
+      })
+      .catch((err) => {
+        alert("Error registering for auction: " + err.message);
+      });
+  };
+
   return (
     <div className="container mt-5 p-4 bg-light rounded shadow-sm">
+      
       <h1 className="text-center mb-4">Create Item Listing</h1>
       <form onSubmit={sendData}>
         {/* Image Upload Section */}
@@ -170,7 +214,19 @@ export default function CreateItemListing() {
             Add Item
           </button>
         </div>
+
       </form>
+
+      <div className="text-center mt-3">
+        {/* New Register Button */}
+        <button
+          className="btn btn-secondary btn-lg"
+          onClick={handleRegisterAuction}
+          disabled={!selectedAuction}
+        >
+          Register for Auction
+        </button>
+      </div>
     </div>
   );
 }

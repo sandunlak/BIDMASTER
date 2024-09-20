@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const Auction =  require("../models/auction");
 const Item = require("../models/item"); // Assuming you have an Item model
-
+const Seller = require("../models/seller");
 
 router.route("/add").post(async (req,res)=>{
 
@@ -38,7 +38,45 @@ router.route("/add").post(async (req,res)=>{
 }
 )
 
+// Route to register a seller for an auction
+router.post("/register", async (req, res) => {
+    const { auctionId, userId } = req.body;
+    try {
+      const auction = await Auction.findById(auctionId);
+      if (!auction) {
+        return res.status(404).json({ message: "Auction not found" });
+      }
+  
+      const user = await Seller.findById(userId);
+      if (!user) {
+        return res.status(404).json({ message: "Seller not found" });
+      }
+  
+      // Add logic to register the user (you could maintain a list of registered users)
+      auction.registeredUsers = auction.registeredUsers || [];
+      if (auction.registeredUsers.includes(userId)) {
+        return res.status(400).json({ message: "Already registered for this auction" });
+      }
+      auction.registeredUsers.push(userId);
+  
+      await auction.save();
+      res.status(200).json({ message: "Seller registered for auction successfully" });
+    } catch (err) {
+      res.status(500).json({ message: "Error registering for auction", error: err.message });
+    }
+  });
 
+
+  // Route to get registered auctions for a seller
+    router.post("/registered-auctions", async (req, res) => {
+    const { userId } = req.body;
+    try {
+        const auctions = await Auction.find({ registeredUsers: userId });
+        res.status(200).json(auctions);
+    } catch (err) {
+        res.status(500).json({ message: "Error fetching registered auctions", error: err.message });
+    }
+    });
 
 router.route("/all").get(async (req, res) => {
     try {
@@ -52,10 +90,14 @@ router.route("/all").get(async (req, res) => {
   router.route("/:id").get(async (req, res) => {
     const { id } = req.params;
     try {
-        const auction = await Auction.findById(id).populate({
+        const auction = await Auction.findById(id)
+        .populate({
             path: 'items',
             select: 'name description startingPrice images',
-        });
+        })
+        .populate('registeredUsers', 'firstName companyName')
+        
+        // .populate('sellers', 'name image') // Populate sellers
         if (!auction) return res.status(404).json({ message: "Auction not found" });
 
         // Convert each item's image buffer to base64

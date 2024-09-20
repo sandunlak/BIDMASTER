@@ -9,6 +9,8 @@ export default function SellerAccount() {
     const [formData, setFormData] = useState({});
     const navigate = useNavigate(); // Hook for navigation
 
+    const [registeredAuctions, setRegisteredAuctions] = useState([]);
+
     useEffect(() => {
         const token = localStorage.getItem('authToken');
         if (token) {
@@ -19,6 +21,7 @@ export default function SellerAccount() {
                 if (response.data) {
                     setSellerData(response.data);
                     setFormData(response.data);
+                    fetchRegisteredAuctions(response.data._id); // Fetch auctions for this seller
                 }
             })
             .catch(error => {
@@ -28,6 +31,19 @@ export default function SellerAccount() {
             console.error("No token found");
         }
     }, []);
+
+    const fetchRegisteredAuctions = (userId) => {
+        const token = localStorage.getItem('authToken');
+        axios.post('http://localhost:8070/auction/registered-auctions', { userId }, {
+            headers: { 'authToken': token }
+        })
+        .then(response => {
+            setRegisteredAuctions(response.data); // Set registered auctions
+        })
+        .catch(error => {
+            console.error("Error fetching registered auctions", error);
+        });
+    };
 
     const handleEditChange = (e) => {
         const { name, value } = e.target;
@@ -142,6 +158,31 @@ export default function SellerAccount() {
                                 </Form>
                             </>
                         )}
+{activeTab === 'registered-auction' && registeredAuctions.length > 0 && (
+    <div>
+        <h5>Registered Auctions</h5>
+        <table className="table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Starting Date & Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {registeredAuctions.map(auction => {
+                    const formattedDate = new Date(auction.startingDateTime).toLocaleString(); // Format the date and time
+                    return (
+                        <tr key={auction._id}>
+                            <td>{auction.title}</td>
+                            <td>{formattedDate}</td>
+                        </tr>
+                    );
+                })}
+            </tbody>
+        </table>
+    </div>
+)}
+
                         {activeTab === 'edit-profile' && sellerData && (
                             <>
                                 <Form onSubmit={handleSubmit}>
