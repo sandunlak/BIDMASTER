@@ -31,11 +31,26 @@ import ManageSellers from './components/ManageSellers';
 import ImageUpload from './components/TestImageUpload';
 
 
+//////////////////// sahan ////////////////////
 
 import BidderSignUp from './components/bidder/BidderSignUp';
 import RegisterToAuctionAsBidder from "./components/bidder/RegisterToAuctionAsBidder";
 
+
+
+//////////////////// sadun ////////////////////
 import BidderAccount from "./components/bidder/BidderAccount";
+import AddDelivery from './components/delivery/Adddelivery';
+import AddDeliveryPerson from './components/delivery/AddDeliveryPerson';
+import AddProduct from './components/delivery/AddProduct';
+import AddSalesDetails from './components/delivery/AddSalesDetails';
+import ReadProduct from './components/delivery/ReadProduct';
+import ReadSalesDetails from './components/delivery/ReadSalesDetails';
+
+
+
+
+
 function App() {
   return (
     <Router>
@@ -84,7 +99,31 @@ function App() {
 
 
           <Route path="/image" element={<ImageUpload/>} />
+
+
+
+
+//sadun routes
+          <Route path="/adddelivery" exact element={<AddDelivery/>} />
+          <Route path="/addperson" exact element={<AddDeliveryPerson/>} />
+          <Route path="/addproduct" exact element={<AddProduct/>} />
+          <Route path="/enter" exact element={<AddSalesDetails />} />
+          <Route path="/readproduct" exact element={<ReadProduct/>} />
+
+          <Route exact path="/" component={ReadProduct} />
+
+          <Route path="/adddelivery" component={AddDelivery} />
+
+
+          <Route path="/read" exact element={<ReadSalesDetails/>} />
+          
+
+
+        
         </Routes>
+
+       
+       
 
         <Footer />
         </main>

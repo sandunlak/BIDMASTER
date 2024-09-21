@@ -136,6 +136,7 @@ export default function SellerAccount() {
 
     return (
         <Container className="mt-5">
+            
             <Row className="justify-content-center">
                 <Col md={8}>
                     <Nav variant="tabs" activeKey={activeTab} onSelect={(selectedKey) => setActiveTab(selectedKey)}>
@@ -163,6 +164,7 @@ export default function SellerAccount() {
                                         style={{ width: '150px', height: '150px', backgroundColor: '#f0f0f0' }}
                                     />
                                 </div>
+                                
                                 <Form>
                                     <Form.Group as={Row} className="mb-3">
                                         <Form.Label column sm="3"><strong>Email :</strong></Form.Label>
@@ -212,8 +214,24 @@ export default function SellerAccount() {
                                             Logout
                                         </Button>
                                     </div>
+                                    
                                 </Form>
+                                <div className="text-center mt-4">
+                                        <Button variant="primary">
+                                            <a href="/readproduct"
+                                            
+                                            style={{
+                                                color:"white",
+                                                textDecoration:"none"
+                                            }}
+                                            >
+                                                my orders
+                                            
+                                            </a>
+                                        </Button>
+                                    </div>
                             </>
+                            
                         )}
 {activeTab === 'registered-auction' && registeredAuctions.length> 0 && (
     <div>
@@ -226,6 +244,7 @@ export default function SellerAccount() {
                 </tr>
             </thead>
             <tbody>
+                
                 {registeredAuctions.map(auction => {
                     const formattedDate = new Date(auction.startingDateTime).toLocaleString(); // Format the date and time
                     return (
@@ -237,6 +256,7 @@ export default function SellerAccount() {
                 })}
             </tbody>
         </table>
+        
     </div>
 )}
 {activeTab === 'analytics' && categoryData.length> 0 && (
@@ -314,6 +334,9 @@ export default function SellerAccount() {
                                 </Form>
                             </>
                         )}
+
+
+                                    
                     </div>
                 </Col>
             </Row>

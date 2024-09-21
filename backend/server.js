@@ -33,16 +33,27 @@ const sellerRouter = require("./routes/sellers");
 const auctionRouter = require("./routes/auctions");
 const adminRouter = require("./routes/admins");
 const bidderRouter = require("./routes/bidders");
-
+const registerRouter = require("./routes/register.js"); 
+const addproductRouter = require("./routes/addproduct.js");
+const adddeliveryRouter = require("./routes/adddelivery.js");
+const adddeliverypersonRouter = require("./routes/adddeliverypersonroute.js");
 
 
 app.use("/item",itemRouter);
 app.use("/seller",sellerRouter);
 app.use("/auction",auctionRouter);
 app.use("/admin",adminRouter);
+
+////////////////////////////////////////////      sahan      ////////////////////////////////////
 app.use("/bidder", bidderRouter);
 
 
+
+///////////////////////////////////////////////      sadun       /////////////////////////////////
+app.use("/registermodel", registerRouter);
+app.use("/addproductmodel", addproductRouter); // Use the new router
+app.use("/adddeliverymodel",adddeliveryRouter);
+app.use("/adddeliveryperson",adddeliverypersonRouter);
 
 
 app.listen(PORT,() => {
