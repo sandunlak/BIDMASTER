@@ -28,6 +28,7 @@ import RegisterToAuctionAsSeller from './components/RegisterToAuctionAsSeller';
 import AdminLogin from './components/AdminLogin';
 import ManageItems from './components/ManageItems';
 import ManageSellers from './components/ManageSellers';
+import ImageUpload from './components/TestImageUpload';
 
 
 function App() {
@@ -67,6 +68,11 @@ function App() {
 
           <Route path="/ItemListView" element={<ItemListPage/>} />
 
+
+
+
+
+          <Route path="/image" element={<ImageUpload/>} />
         </Routes>
 
         <Footer />

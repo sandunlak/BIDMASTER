@@ -113,20 +113,20 @@ router.delete('/delete/:name', async (req, res) => {
     }
 });
 
+// Route to delete an auction
+router.route("/delete/:id").delete(async (req, res) => {
+    const { id } = req.params;
+    console.log("id is:",id);
 
-// Route to delete an item by ID
-router.delete('/delete/:id', async (req, res) => {
     try {
-        const { id } = req.params; // Get the item ID from the request parameters
-        const deletedItem = await Item.findByIdAndDelete(id); // Find and delete by ID
-        if (!deletedItem) {
-            return res.status(404).json({
-                message: "Item not found"
-            });
+        const detedItem = await Item.findByIdAndDelete(id);
+
+        if (!detedItem) {
+            return res.status(404).json({ message: "item not found" });
         }
-        res.json({
-            message: "Item deleted successfully",
-            itemId: id
+
+        res.status(200).json({
+            message: "Item deleted successfully"
         });
     } catch (err) {
         res.status(500).json({
@@ -135,4 +135,36 @@ router.delete('/delete/:id', async (req, res) => {
         });
     }
 });
+
+
+// Route to get most available item category
+router.get('/analytics/most-available-category', async (req, res) => {
+    try {
+        const categories = await Item.aggregate([
+            { $group: { _id: "$category", count: { $sum: 1 } } },
+            { $sort: { count: -1 } },
+            { $limit: 1 }
+        ]);
+        if (categories.length > 0) {
+            res.json(categories[0]); // Send the most available category
+        } else {
+            res.status(404).json({ message: "No items found" });
+        }
+    } catch (err) {
+        res.status(500).json({ message: "Error fetching category data", error: err.message });
+    }
+});
+// Route to get all item categories and their counts
+router.get('/analytics/categories', async (req, res) => {
+    try {
+        const categories = await Item.aggregate([
+            { $group: { _id: "$category", count: { $sum: 1 } } },
+            { $sort: { count: -1 } }
+        ]);
+        res.json(categories);
+    } catch (err) {
+        res.status(500).json({ message: "Error fetching category data", error: err.message });
+    }
+});
+
 module.exports = router;

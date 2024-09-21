@@ -29,6 +29,31 @@ function SellerSignUp() {
 
     // Validate fields
     validateField(name, value);
+
+    if (name === "contactInfo") {
+      // Ensure the input starts with "+94" and has at most 9 digits after it
+      if (value.startsWith("+94")) {
+        const digitsAfterPrefix = value.slice(3);
+        
+        if (digitsAfterPrefix.length <= 9 && /^\d*$/.test(digitsAfterPrefix)) {
+          setFormData({
+            ...formData,
+            [name]: value,
+          });
+        }
+      } else {
+        // If user tries to delete or change "+94", prevent the change
+        setFormData({
+          ...formData,
+          [name]: "+94",
+        });
+      }
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
 
   const handleKeyPress = (e) => {
@@ -37,7 +62,7 @@ function SellerSignUp() {
       e.preventDefault();
     }
     // Allow only digits (0-9) and prevent non-digit input for contactInfo
-    if (e.target.name === "contactInfo" && !/[0-9+]/.test(e.key)) {
+    if (e.target.name === "contactInfo" && !/[0-9]/.test(e.key)) {
       e.preventDefault();
     }
   };
@@ -63,18 +88,11 @@ function SellerSignUp() {
           value.length >= 6 ? "" : "Password must be at least 6 characters.";
         break;
         case "contactInfo":
-          if (value.startsWith("+94")) {
-            fieldErrors.contactInfo = value.match(/^\+94\d{9}$/)
-              ? ""
-              : "Contact number must start with +94 followed by exactly 9 digits.";
-          } else if (value.startsWith("0")) {
-            fieldErrors.contactInfo = value.match(/^0\d{9}$/)
-              ? ""
-              : "Contact number must start with 0 followed by exactly 9 digits.";
-          } else {
-            fieldErrors.contactInfo = "Contact number must start with +94 or 0.";
-          }
-          break;
+      fieldErrors.contactInfo =
+        value.match(/^\+94\d{9}$/)
+          ? ""
+          : "Contact number must start with +94 and be followed by exactly 9 digits.";
+      break;
         case "birthday":
           const today = new Date();
           const birthDate = new Date(value);
@@ -243,7 +261,7 @@ function SellerSignUp() {
               name="address"
               value={formData.address}
               onChange={handleChange}
-              required
+              
             />
             {errors.address && (
               <div className="text-danger">{errors.address}</div>
@@ -260,7 +278,7 @@ function SellerSignUp() {
               name="companyName"
               value={formData.companyName}
               onChange={handleChange}
-              required
+              
             />
             {errors.companyName && (
               <div className="text-danger">{errors.companyName}</div>
@@ -275,7 +293,7 @@ function SellerSignUp() {
               name="businessAddress"
               value={formData.businessAddress}
               onChange={handleChange}
-              required
+              
             />
             {errors.businessAddress && (
               <div className="text-danger">{errors.businessAddress}</div>
@@ -286,17 +304,16 @@ function SellerSignUp() {
           <div className="col-md-6 mb-3 form-group">
             <label htmlFor="contactInfo">Contact Information</label>
             <input
-              type="text"
-              className="form-control"
-              id="contactInfo"
-              name="contactInfo"
-              onKeyPress={handleKeyPress} // Restrict input to digits only
-              maxLength={12} // +94 + 9 digits
-              placeholder="Enter number starting with +94 or 0"
-              value={formData.contactInfo}
-              onChange={handleChange}
-              required
-            />
+        type="text"
+        className="form-control"
+        id="contactInfo"
+        name="contactInfo"
+        value={formData.contactInfo || "+94"} // Pre-fill "+94"
+        onKeyPress={handleKeyPress}
+        onChange={handleChange}
+        maxLength={12} // "+94" + 9 digits
+        required
+      />
             {errors.contactInfo && (
               <div className="text-danger">{errors.contactInfo}</div>
             )}

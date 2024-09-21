@@ -94,6 +94,8 @@ router.post('/login', async (req, res) => {
 
 
 
+
+
 router.get('/me', authMiddleware, async (req, res) => {
   try {
     // Find the seller using the ID from the verified token

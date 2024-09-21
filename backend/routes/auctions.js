@@ -2,7 +2,26 @@ const router = require("express").Router();
 const Auction =  require("../models/auction");
 const Item = require("../models/item"); // Assuming you have an Item model
 const Seller = require("../models/seller");
+const path = require('path');
 
+const express = require("express");
+const app = express();
+
+const multer = require("multer");
+
+
+// Set up multer storage
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/'); // Directory to save uploaded files
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + '-' + file.originalname); // Unique filename
+    }
+});
+
+const upload = multer({ storage: storage });
+// Route to add an auction with image upload
 router.route("/add").post(async (req,res)=>{
 
     const { title, category, description, image, items,startingDateTime,location} = req.body;
@@ -37,6 +56,7 @@ router.route("/add").post(async (req,res)=>{
 
 }
 )
+
 
 // Route to register a seller for an auction
 router.post("/register", async (req, res) => {
@@ -78,14 +98,29 @@ router.post("/register", async (req, res) => {
     }
     });
 
-router.route("/all").get(async (req, res) => {
-    try {
-      const auctions = await Auction.find({});
-      res.status(200).json(auctions);
-    } catch (err) {
-      res.status(500).json({ message: "Error fetching auctions", error: err.message });
-    }
-  });
+    
+
+
+
+    
+    router.route("/all").get(async (req, res) => {
+        try {
+            
+          const auctions = await Auction.find({});
+          
+          // Append full image URL to each auction
+          auctions.forEach(auction => {
+            if (auction.image) {
+              auction.image = `${req.protocol}://${req.get('host')}/uploads/${auction.image}`;
+            }
+          });
+          
+          res.status(200).json(auctions);
+        } catch (err) {
+          res.status(500).json({ message: "Error fetching auctions", error: err.message });
+        }
+      });
+  
   
   router.route("/:id").get(async (req, res) => {
     const { id } = req.params;
@@ -207,6 +242,21 @@ router.route("/delete/:id").delete(async (req, res) => {
             message: "Error deleting auction",
             error: err.message
         });
+    }
+});
+
+
+// Route to get the most registered auctions
+router.get("/most-registered", async (req, res) => {
+    try {
+        const auctions = await Auction.aggregate([
+            { $project: { title: 1, registeredUsersCount: { $size: "$registeredUsers" } } },
+            { $sort: { registeredUsersCount: -1 } },
+            { $limit: 5 } // Get top 5 auctions
+        ]);
+        res.status(200).json(auctions);
+    } catch (err) {
+        res.status(500).json({ message: "Error fetching most registered auctions", error: err.message });
     }
 });
 

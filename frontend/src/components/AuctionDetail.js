@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Button, Image, Card } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import { Container, Row, Col, Button, Image, Card, Spinner } from 'react-bootstrap';
+import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import '../AuctionDetail.css';
-import { Link } from 'react-router-dom';
 
 export default function AuctionDetail() {
     const { id } = useParams();
@@ -23,7 +22,12 @@ export default function AuctionDetail() {
     }, [id]);
 
     if (loading) {
-        return <p>Loading auction details...</p>;
+        return (
+            <Container className="text-center" style={{ paddingTop: '50px' }}>
+                <Spinner animation="border" variant="primary" />
+                <p>Loading auction details...</p>
+            </Container>
+        );
     }
 
     if (!auction) {
@@ -32,110 +36,84 @@ export default function AuctionDetail() {
 
     return (
         <Container className="auction-page" style={{ padding: '20px' }}>
-            <Row className="auction-header" style={{ textAlign: 'center', marginBottom: '30px' }}>
-                <h1 style={{ color: '#34495e', fontWeight: 'bold' }}>{auction.title}</h1>
-            </Row>
+            <Card className="mb-4" style={{ boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}>
+                <Card.Body>
+                    <h1 className="text-center text-dark">{auction.title}</h1>
+                    <hr />
+                    <Row>
+                        <Col md={4}>
+                            <p><strong>Date:</strong> {new Date(auction.startingDateTime).toLocaleDateString()}</p>
+                            <p><strong>Venue:</strong> {auction.location}</p>
+                            <p><strong>Time:</strong> {new Date(auction.startingDateTime).toLocaleTimeString()}</p>
+                            <p><strong>Category:</strong> {auction.category}</p>
+                            <p>{auction.description}</p>
+                        </Col>
+                    </Row>
+                </Card.Body>
+            </Card>
 
-            <Row>
-    <Col md={4} className="auction-details mx-auto" style={{ padding: '20px',
-
-      
-     }}>
-        <Card style={{ padding: '20px', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}>
-            <p>
-                <strong>Date:</strong> {new Date(auction.startingDateTime).toLocaleDateString()}
-                <br />
-                <strong>Venue:</strong> {auction.location}
-                <br />
-                <strong>Time:</strong> {new Date(auction.startingDateTime).toLocaleTimeString()}
-                <br />
-                <strong>Category:</strong> {auction.category}
-            </p>
-            <p>{auction.description}</p>
-        </Card>
-    </Col>
-</Row>
-
-            <Row>
-                {/* Sellers Section */}
-                <Col md={3} className="sellers-section">
-                    <h3 style={{ color: '#2c3e50' }}>Sellers</h3>
-                    <div className="sellers" style={{ marginTop: '20px' }}>
-                        {auction.registeredUsers && auction.registeredUsers.map((seller, index) => (
-                            <Card key={index} style={{ padding: '10px', marginBottom: '15px', boxShadow: '0 4px 8px rgba(0,0,0,0.1)', 
-                              
-                            }}>
-                                <div className="seller-profile" style={{ display: 'flex', alignItems: 'center' }}>
+            <Row className="mb-4">
+                <Col md={3}>
+                    <Card style={{ padding: '15px', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}>
+                        <h3>Sellers</h3>
+                        <div>
+                            {auction.registeredUsers && auction.registeredUsers.map((seller, index) => (
+                                <div key={index} className="d-flex align-items-center mb-2">
                                     <Image
-                                        src={seller.image || "/Assests/defaultprofile.jpg"}
+                                        src="/Assests/defaultprofile.jpg"
                                         roundedCircle
-                                        style={{
-                                            width: "45px",
-                                            height: "45px",
-                                            marginRight: "15px"
-                                        }}
+                                        style={{ width: "50px", height: "50px", marginRight: "10px" }}
                                     />
-                                    <p style={{ fontSize: '16px', color: '#2c3e50' }}>{seller.firstName}</p>
+                                    <span>{seller.firstName}</span>
                                 </div>
-                            </Card>
-                        ))}
-                    </div>
+                            ))}
+                        </div>
+                    </Card>
                 </Col>
-
-                {/* Auction Items Section */}
-                <Col md={7} className="auction-items-section">
-                    <h3 style={{ color: '#2c3e50' }}>Auction Items</h3>
-                    <div className="auction-items" style={{ marginTop: '20px' }}>
-                        {auction.items && auction.items.map((item, index) => (
-                            <Card key={index} style={{ padding: '10px', marginBottom: '15px', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}>
-                                <div className="auction-item" style={{ textAlign: 'center' }}>
-                                    <Image
-                                        src={item.images[0]?.data || "/default-item.jpg"}
-                                        roundedCircle
-                                        alt={item.name}
-                                        style={{
-                                            width: "120px",
-                                            height: "120px",
-                                            objectFit: "cover",
-                                            marginBottom: '10px'
-                                        }}
-                                    />
-                                    <h5 style={{ color: '#34495e' }}>{item.name}</h5>
-                                    <p style={{ color: '#7f8c8d' }}>Starting Price: ${item.startingPrice}</p>
-                                    <Button
-                                        style={{
-                                            backgroundColor: '#3498db',
-                                            borderColor: '#3498db',
-                                            padding: '5px 20px',
-                                            color: 'white',
-                                            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
-                                        }}
-                                    >
-                                        View
-                                    </Button>
-                                </div>
-                            </Card>
-                        ))}
-                    </div>
+                <Col md={9}>
+                    <Card style={{ padding: '15px', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}>
+                        <h3>Auction Items</h3>
+                        <Row>
+                            {auction.items && auction.items.map((item, index) => (
+                                <Col md={4} key={index} className="mb-3">
+                                    <Card className="item-card" style={{ padding: '10px', textAlign: 'center', height: '250px' }}>
+                                        <Image
+                                            src={item.images[0]?.data || "/default-item.jpg"}
+                                            rounded
+                                            alt={item.name}
+                                            style={{ width: "100px", height: "100px", objectFit: "cover", marginBottom: '10px' }}
+                                        />
+                                        <h5>{item.name}</h5>
+                                        <p>Starting Price: ${item.startingPrice}</p>
+                                        <Button variant="secondary">View</Button>
+                                    </Card>
+                                </Col>
+                            ))}
+                        </Row>
+                    </Card>
                 </Col>
             </Row>
 
-            {/* Auction Details and Register Section */}
-            <Row>                
-    <Col md={8} className="auction-register mx-auto" style={{ textAlign: 'center', marginTop: '20px' }}>
-        <Button variant="danger" size="lg" block style={{ boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', padding: '10px 50px' }}>
-            <Link
-                to={`/RegisterToAuction/${auction._id}`}
-                style={{
-                    textDecoration: 'none',
-                    color: 'white'
-                }}
-            >
-                Register to auction
-            </Link>
-        </Button>
-    </Col>
-</Row>
+            <Row>
+                <Col className="text-center">
+                    <Button variant="danger" size="lg">
+                        <Link to={`/RegisterToAuction/${auction._id}`} style={{ color: 'white', textDecoration: 'none' }}>
+                            Register to auction
+                        </Link>
+                    </Button>
+                </Col>
+            </Row>
+
+            <style>{`
+                .item-card {
+                    transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+                }
+                .item-card:hover {
+                    transform: scale(1.05);
+                    background-color: #e0e0e0; /* Change to the desired hover color */
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                }
+            `}</style>
         </Container>
     );
 }

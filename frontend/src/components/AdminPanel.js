@@ -1,12 +1,54 @@
-import React from "react";
-import { Link } from "react-router-dom";
+
+import { Link,useNavigate} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import { useEffect, useState } from 'react';
+
+
+import axios from 'axios';
+import {jwtDecode} from 'jwt-decode'; 
 export default function AdminPanel() {
+
+
+    const [adminName, setAdminName] = useState(""); // State to hold seller's name
+
+    const navigate = useNavigate();
+
+
+    useEffect(() => {
+      const fetchSellerName = async () => {
+          const token = localStorage.getItem('authToken');
+          if (!token) {
+            
+              navigate('/AdminLogin'); // Redirect if not logged in
+              alert("only have access to admins");
+              return;
+          }
+          try {
+              const { id } = jwtDecode(token);
+              const response = await axios.get('http://localhost:8070/admin/me', {
+                  headers: { 'authToken': token }
+              });
+              setAdminName(response.data.name);
+          } catch (error) {
+              console.error("Failed to fetch admin data:", error);
+              navigate('/AdminLogin'); // Redirect on error
+          }
+      };
+      fetchSellerName();
+  }, [navigate]);
+
+
     return (
         <div className="container mt-5 mb-5">
             <h1 className="mb-4 text-center">Admin Panel</h1>
+            <br></br>
+            <br></br>
+            
 
+            {adminName && <span style={{ color: "black", marginRight: "15px" ,fontSize:"34"}}>{`Welcome, ${adminName}`}</span>}
+            <br></br>
+            <br></br>
             <div className="row">
                 <div className="col-md-4 mb-4">
                     <div className="card shadow-sm">

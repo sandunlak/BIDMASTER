@@ -80,15 +80,20 @@ export default function Header() {
           </a>
           <div
             className="d-flex mx-auto"
-            style={{ flex: 1, maxWidth: "600px" }}
+            style={{ flex: 1, maxWidth: "600px" ,
+
+              
+            }}
           >
             <Dropdown
               style={{
                 width: "200px",
                 height: "100%",
+                
               }}
             >
-              <Dropdown.Toggle className="btn btn-outline-light me-2" id="filter-dropdown">
+              <Dropdown.Toggle className="btn btn-outline-light me-2" id="filter-dropdown"
+              >
                 <i className="bi bi-funnel"></i> Filter
               </Dropdown.Toggle>
               <Dropdown.Menu className="p-4 dropdown-menu-custom">

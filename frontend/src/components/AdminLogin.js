@@ -1,18 +1,35 @@
-import React, { useState } from 'react';
+import axios from "axios";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 export default function AdminLogin(){
 
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log('Username:', username);
-        console.log('Password:', password);
-    // Implement authentication logic here
-    };
+    
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(""); // Clear previous errors
+    try {
+      const response = await axios.post("http://localhost:8070/admin/login", { username, password });
+      localStorage.setItem("authToken", response.data.token); // Save token
+      navigate("/Admin"); // Redirect to seller dashboard
+    }  catch (err) {
+      console.error(err.response || err.message); // Log the entire error
+      if (err.response && err.response.status === 400) {
+        setError("Invalid credentials. Please try again.");
+      } else {
+        setError("Server error. Please try again later.");
+      }
+    }
+    
+  };
 
     return(
 
@@ -29,6 +46,7 @@ export default function AdminLogin(){
           </div>
 
           <h2 className="text-center mb-4">Admin Login</h2>
+          {error && <div className="alert alert-danger">{error}</div>}
           <form onSubmit={handleSubmit}>
             <div className="form-group">
               <label htmlFor="username">Username</label>
@@ -41,7 +59,6 @@ export default function AdminLogin(){
                 required
               />
             </div>
-
             <div className="form-group">
               <label htmlFor="password">Password</label>
               <input
@@ -53,11 +70,12 @@ export default function AdminLogin(){
                 required
               />
             </div>
-            <button className="btn btn-outline-dark me-2" type="button" style={{
-                    width:150,
-                    height:50
-                }}>
-              Login 
+            <button
+              className="btn btn-outline-dark me-2"
+              type="submit"
+              style={{ width: 150, height: 50 }}
+            >
+              Login
             </button>
           </form>
           <div className="links mt-3">

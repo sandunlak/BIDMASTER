@@ -2,6 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, Nav, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Pie } from 'react-chartjs-2';
+import {
+    Chart as ChartJS,
+    ArcElement,
+    Tooltip,
+    Legend,
+} from 'chart.js';
+
+// Register the elements
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function SellerAccount() {
     const [activeTab, setActiveTab] = useState('personal-details');
@@ -10,6 +20,53 @@ export default function SellerAccount() {
     const navigate = useNavigate(); // Hook for navigation
 
     const [registeredAuctions, setRegisteredAuctions] = useState([]);
+    const [mostRegisteredAuctions, setMostRegisteredAuctions] = useState([]);
+    useEffect(() => {
+        axios.get('http://localhost:8070/auction/most-registered')
+            .then(response => {
+                setMostRegisteredAuctions(response.data);
+            })
+            .catch(error => {
+                console.error("Error fetching most registered auctions", error);
+            });
+    }, []);
+
+    // const [mostAvailableCategory, setMostAvailableCategory] = useState(null);
+    const [categoryData, setCategoryData] = useState([]);
+    // useEffect(() => {
+        
+    //     axios.get('http://localhost:8070/item/analytics/most-available-category')
+    //         .then(response => {
+    //             setMostAvailableCategory(response.data);
+    //         })
+    //         .catch(error => {
+    //             console.error("Error fetching most available category", error);
+    //         });
+    // }, []);
+
+    useEffect(() => {
+        axios.get('http://localhost:8070/item/analytics/categories')
+            .then(response => {
+                setCategoryData(response.data); // Store the category data for the pie chart
+            })
+            .catch(error => {
+                console.error("Error fetching category data", error);
+            });
+    }, []);
+
+    const chartData = {
+        labels: categoryData.map(cat => cat._id), // Category names
+        datasets: [{
+            data: categoryData.map(cat => cat.count), // Counts
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.6)',
+                'rgba(54, 162, 235, 0.6)',
+                'rgba(255, 206, 86, 0.6)',
+                'rgba(75, 192, 192, 0.6)',
+                // Add more colors if needed
+            ],
+        }],
+    };
 
     useEffect(() => {
         const token = localStorage.getItem('authToken');
@@ -100,7 +157,7 @@ export default function SellerAccount() {
                             <>
                                 <div className="text-center">
                                     <img
-                                        src="/Assests/steve.webp"
+                                        src="/Assests/defaultprofile.jpg"
                                         alt="Profile"
                                         className="rounded-circle mb-4"
                                         style={{ width: '150px', height: '150px', backgroundColor: '#f0f0f0' }}
@@ -158,7 +215,7 @@ export default function SellerAccount() {
                                 </Form>
                             </>
                         )}
-{activeTab === 'registered-auction' && registeredAuctions.length > 0 && (
+{activeTab === 'registered-auction' && registeredAuctions.length> 0 && (
     <div>
         <h5>Registered Auctions</h5>
         <table className="table">
@@ -182,6 +239,23 @@ export default function SellerAccount() {
         </table>
     </div>
 )}
+{activeTab === 'analytics' && categoryData.length> 0 && (
+    <div>
+    <div style={{ width: '300px', height: '300px' }}>
+        <h5>Most Available Item Categories</h5>
+        <Pie data={chartData}
+        
+       
+        width={20} // Set the width as needed
+        height={20} // Set the height as needed/
+        ></Pie>
+    </div>
+    
+    </div>
+    
+)}
+
+
 
                         {activeTab === 'edit-profile' && sellerData && (
                             <>

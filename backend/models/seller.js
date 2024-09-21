@@ -27,7 +27,7 @@ const sellerSchema = new Schema({
     },
     country:  {
         type: String, 
-        required: true
+        required: false
     },
     address:  {
         type: String, 

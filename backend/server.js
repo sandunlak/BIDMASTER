@@ -5,6 +5,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const app = express();
 require("dotenv").config();
+const path = require('path');
 
 
 const PORT = process.env.PORT || 8070; //If 8070 not avilable assign another avilalabe port number
@@ -30,12 +31,16 @@ connection.once("open",() => {  //Open the created connection
 const itemRouter = require("./routes/items"); 
 const sellerRouter = require("./routes/sellers");
 const auctionRouter = require("./routes/auctions");
+const adminRouter = require("./routes/admins");
 
 
 
 app.use("/item",itemRouter);
 app.use("/seller",sellerRouter);
 app.use("/auction",auctionRouter);
+app.use("/admin",adminRouter);
+
+
 
 
 app.listen(PORT,() => {
@@ -45,5 +50,5 @@ app.listen(PORT,() => {
 //back end URL for item list manupulation
 
 
-
-
+//////////////////////////////////////////////////////////////////////////////////
+app.use('./uploads', express.static(path.join(__dirname, 'uploads')));

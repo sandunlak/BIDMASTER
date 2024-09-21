@@ -139,7 +139,9 @@ export default function CreateItemListing() {
               <p>Upload Images Here</p>
               <div className="d-flex flex-wrap">
                 {imagePreviews.map((image, index) => (
-                  <img key={index} src={image} alt={`upload-${index}`} className="img-thumbnail m-2" style={{ width: "100px", height: "100px", objectFit: "cover" }} />
+                  <img key={index} src={image} alt={`upload-${index}`} className="img-thumbnail m-2" style={{ width: "100px", height: "100px", objectFit: "cover"
+                    
+                   }} />
                 ))}
                 <label className="btn btn-light btn-sm m-2" style={{ width: "100px", height: "100px" }}>
                   <span>+</span>
@@ -185,6 +187,7 @@ export default function CreateItemListing() {
           </div>
         </div>
         <div className="row mb-3">
+
           <div className="col-md-6 mb-3">
             <label className="form-label">Description:</label>
             <textarea className="form-control" rows="3" onChange={(e) => setDescription(e.target.value)}></textarea>

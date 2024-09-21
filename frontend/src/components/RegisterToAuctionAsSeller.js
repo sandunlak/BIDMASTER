@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams,Link } from 'react-router-dom';
+import { useParams,Link,useNavigate } from 'react-router-dom';
 import '../RegisterAuctionSeller.css';
 
 export default function RegisterToAuctionAsSeller() {
@@ -8,6 +8,7 @@ export default function RegisterToAuctionAsSeller() {
   const { id } = useParams(); // Extract auction ID from URL
   const [auction, setAuction] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate=useNavigate();
 
   useEffect(() => {
     axios.get(`http://localhost:8070/auction/${id}`)
@@ -27,6 +28,9 @@ export default function RegisterToAuctionAsSeller() {
       axios.get('http://localhost:8070/seller/me', { headers: { 'authToken': token } })
         .then(response => {
           if (response.data) setSellerData(response.data);
+          else{
+            navigate("/SellerLogin");
+          }
         })
         .catch(error => {
           console.error("There was an error fetching the seller data!", error);
@@ -82,7 +86,7 @@ export default function RegisterToAuctionAsSeller() {
             <div className="form-row">
               <div className="form-group col-md-6">
                 <label>Date:</label>
-                <input type="date" className="form-control" name="date" value={auction.date} readOnly />
+                <input type="text" className="form-control" name="date" value={auction.startingDateTime} readOnly />
               </div>
               <div className="form-group col-md-6">
                 <label>Category:</label>
