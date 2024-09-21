@@ -31,6 +31,11 @@ import ManageSellers from './components/ManageSellers';
 import ImageUpload from './components/TestImageUpload';
 
 
+
+import BidderSignUp from './components/bidder/BidderSignUp';
+import RegisterToAuctionAsBidder from "./components/bidder/RegisterToAuctionAsBidder";
+
+import BidderAccount from "./components/bidder/BidderAccount";
 function App() {
   return (
     <Router>
@@ -51,7 +56,7 @@ function App() {
           <Route path="/Collectibles" element={<Collectibles/>}/>
           
           <Route path="/ChooseRole" element={<ChooseRole/>}/>
-          <Route path="/Login" element={<Login/>}/>
+        
           <Route path="/SellerLogin" element={<SellerLogin/>}/>
           <Route path="/SellerAccount" element={<SellerAccount/>}/>
           <Route path="/SellerSignUp" element={<SellerSignUp/>}/>
@@ -68,8 +73,14 @@ function App() {
 
           <Route path="/ItemListView" element={<ItemListPage/>} />
 
+//sahan routes
+          <Route path="/BidderSignUp" element={<BidderSignUp />} />
 
+          
 
+  <Route path="/BidderAccount" element={<BidderAccount />} />
+  <Route path="/Login" element={<Login/>}/>
+  <Route path="/RegisterToAuction/:id/RegisterToAuctionAsBidder" element={<RegisterToAuctionAsBidder/>}/>
 
 
           <Route path="/image" element={<ImageUpload/>} />

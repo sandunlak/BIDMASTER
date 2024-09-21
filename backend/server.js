@@ -27,11 +27,12 @@ connection.once("open",() => {  //Open the created connection
 })
 
 
-
+/////////////////////////////////////////////////   routes //////////////////////////////
 const itemRouter = require("./routes/items"); 
 const sellerRouter = require("./routes/sellers");
 const auctionRouter = require("./routes/auctions");
 const adminRouter = require("./routes/admins");
+const bidderRouter = require("./routes/bidders");
 
 
 
@@ -39,6 +40,7 @@ app.use("/item",itemRouter);
 app.use("/seller",sellerRouter);
 app.use("/auction",auctionRouter);
 app.use("/admin",adminRouter);
+app.use("/bidder", bidderRouter);
 
 
 

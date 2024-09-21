@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function Login(){
+export default function BidderLogin() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -18,7 +18,7 @@ export default function Login(){
       });
       localStorage.setItem("authToken", response.data.token); // Save token
       localStorage.setItem("Type", "bidder");
-      navigate("/ItemListView"); 
+      navigate("/"); // Redirect to seller dashboard
     } catch (err) {
       console.error(err.response || err.message); // Log the entire error
       if (err.response && err.response.status === 400) {
@@ -29,12 +29,11 @@ export default function Login(){
     }
   };
 
-    return(
-
-        <div className="login-container">
-      <div className="card shadow-sm">
+  return (
+    <div className="login-container">
+      <div className="card shadow-sm" style={{ backgroundColor: "#f8f9fa" }}>
         <div className="card-body">
-        <div className="text-center mb-4">
+          <div className="text-center mb-4">
             <img
               src="/Assests/bid-master-logo-zip-file/png/logo-white.png"
               alt="Company Logo"
@@ -42,9 +41,7 @@ export default function Login(){
               style={styles.logo}
             />
           </div>
-
           <h2 className="text-center mb-4">Bidder Login</h2>
-          
           {error && <div className="alert alert-danger">{error}</div>}
           <form onSubmit={handleSubmit}>
             <div className="form-group">
@@ -78,31 +75,27 @@ export default function Login(){
             </button>
           </form>
           <div className="links mt-3">
-
-
-
-            <a href="/BidderSignUp" className="link">Don't have an account?</a><br></br>
-            <a href="/SellerLogin" className="link ml-3">Seller?</a><br></br>
-            <a href="/AdminLogin" className="link ml-3">Admin?</a>
+            <a href="/BidderSignUp" className="link">
+              Don't have an account?
+            </a>
+            <br />
+            <a href="/bidder" className="link ml-3">
+              Bidder?
+            </a>
           </div>
         </div>
       </div>
     </div>
   );
-
-    
 }
 
+// Styling for the logo
 const styles = {
-
-    logo: {
-
-        width: '150px',
-        height: '150px',
-        borderRadius: '50%', // Makes the image round
-        border: '5px solid #00000', // Adds a border around the image
-        boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.3)', // Adds shadow for depth
-        objectFit: 'cover', // Ensures the image covers the area without distortion
-
-      },
-}
+  logo: {
+    width: "150px",
+    height: "150px",
+    borderRadius: "50%",
+    border: "5px solid #000",
+    boxShadow: "0px",
+  },
+};

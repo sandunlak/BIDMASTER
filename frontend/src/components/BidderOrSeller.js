@@ -19,18 +19,26 @@ export default function ChooseRole(){
         >
           <h3 className="mb-4 text-primary">Select Your Account Type</h3>
           <button
-            className="btn btn-primary mb-3 py-3"
+            className="btn btn-secondary py-3"
             style={{
               width: '100%',
               fontSize: '20px',
               fontWeight: 'bold',
             }}
           >
-            Continue as a Bidder
+            <a
+              href='/BidderSignUp'
+              style={{
+                color: 'white',
+                textDecoration: 'none',
+              }}
+            >
+              Continue as a Bidder
+            </a>
           </button>
           <p className="my-3 text-muted">OR</p>
           <button
-            className="btn btn-secondary py-3"
+            className="btn btn-primary py-3"
             style={{
               width: '100%',
               fontSize: '20px',

@@ -48,21 +48,22 @@ export default function RegisterToAuction() {
         </h3>
         
         {/* Bidder button */}
-        <button className="btn btn-primary mb-3 py-3"
+        <button
+          className="btn btn-primary mb-3 py-3"
           style={{
-            width: '100%',
-            fontSize: '20px',
-            fontWeight: 'bold',
-            backgroundColor: '#007bff',
-            borderColor: '#007bff',
-            borderRadius: '8px',
-            transition: 'background-color 0.3s ease'
+            width: "100%",
+            fontSize: "20px",
+            fontWeight: "bold",
+            backgroundColor: "#007bff", // Primary color
+            borderColor: "#007bff",
           }}
-          onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#0056b3'}
-          onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#007bff'}>
-          <a href='#' style={{ color: 'white', textDecoration: 'none' }}>
+        >
+          <Link
+            to={`/RegisterToAuction/${auction._id}/RegisterToAuctionAsBidder`}
+            style={{ color: "white", textDecoration: "none" }}
+          >
             Bidder
-          </a>
+          </Link>
         </button>
 
         <p className="my-3 text-muted">OR</p>
