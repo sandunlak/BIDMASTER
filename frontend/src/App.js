@@ -1,32 +1,14 @@
-
 import './App.css';
-import AddStudent from './components/AddStudent';
-import Header from './components/Header';
-import AllStudents from './components/AllStudents';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Import Routes
-import AddSalesDetails from './components/AddSalesDetails';
-import ReadSalesDetails from './components/ReadSalesDetails';
-import AddProduct from './components/AddProduct';
-import ReadProduct from './components/ReadProduct';
-
+import { useNavigate } from 'react-router-dom';
 
 
 function App() {
-
+  const navigate = useNavigate();
   return (
-    <Router>
-      <div>
-        <Header />
-        <Routes> {/* Wrap Route components inside Routes */}
-          <Route path="/enter" exact element={<AddSalesDetails />} />
-          <Route path="/readproduct" exact element={<ReadProduct/>} />
-          
-          <Route path="/addproduct" exact element={<AddProduct/>} />
-          <Route path="/add" exact element={<AddStudent />} />
-          <Route path="/read" exact element={<ReadSalesDetails/>} />
-        </Routes>
-      </div>
-    </Router>
+    <div className='App'>
+      <h1>Hii</h1>
+      <button onClick={() => navigate('/AssignSeats')}>go</button>
+    </div>
   );
 }
 
