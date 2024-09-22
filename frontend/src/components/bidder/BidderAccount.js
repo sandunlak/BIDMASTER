@@ -9,17 +9,19 @@ export default function BidderAccount() {
   const [formData, setFormData] = useState({});
   const navigate = useNavigate(); // Hook for navigation
 
+  const [registeredAuctions, setRegisteredAuctions] = useState([]);
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     if (token) {
       axios
-        .get("http://localhost:8070/bidder/me", {
+        .get("http://localhost:8070/bidder/me",{
           headers: { authToken: token },
         })
         .then((response) => {
           if (response.data) {
             setBidderData(response.data);
             setFormData(response.data);
+            fetchRegisteredAuctions(response.data._id);
           }
         })
         .catch((error) => {
@@ -48,12 +50,28 @@ export default function BidderAccount() {
         })
         .then((response) => {
           setBidderData(response.data);
+          setFormData(response.data);
+          fetchRegisteredAuctions(response.data._id); 
         })
         .catch((error) => {
           console.error("There was an error updating the seller data!", error);
         });
     }
   };
+
+  const fetchRegisteredAuctions = (userId) => {
+    const token = localStorage.getItem('authToken');
+    axios.post('http://localhost:8070/auction/registered-auctions-Bidder', { userId }, {
+        headers: { 'authToken': token }
+    })
+    .then(response => {
+        setRegisteredAuctions(response.data); // Set registered auctions
+    })
+    .catch(error => {
+        console.error("Error fetching registered auctions", error);
+    });
+};
+
 
   const handleLogout = () => {
     const confirmLogout = window.confirm("Do you want to logout?");
@@ -199,6 +217,32 @@ export default function BidderAccount() {
                 </Form>
               </>
             )}
+     {activeTab === 'registered-auction' && registeredAuctions.length> 0 && (
+    <div>
+        <h5>Registered Auctions</h5>
+        <table className="table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Starting Date & Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                {registeredAuctions.map(auction => {
+                    const formattedDate = new Date(auction.startingDateTime).toLocaleString(); // Format the date and time
+                    return (
+                        <tr key={auction._id}>
+                            <td>{auction.title}</td>
+                            <td>{formattedDate}</td>
+                        </tr>
+                    );
+                })}
+            </tbody>
+        </table>
+        
+    </div>
+)}
             {activeTab === "edit-profile" && bidderData && (
               <>
                 <Form onSubmit={handleSubmit}>

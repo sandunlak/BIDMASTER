@@ -2,13 +2,17 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
 import "../../RegisterAuctionSeller.css";
+import { useNavigate } from "react-router-dom";
 
 export default function RegisterToAuctionAsBidder() {
   const [bidderData, setBidderData] = useState(null);
   const { id } = useParams(); // Extract auction ID from URL
   const [auction, setAuction] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate(); 
 
+
+  
   useEffect(() => {
     axios
       .get(`http://localhost:8070/auction/${id}`)
@@ -42,6 +46,21 @@ export default function RegisterToAuctionAsBidder() {
 
   if (loading) return <p>Loading auction details...</p>;
   if (!auction) return <p>Auction not found.</p>;
+
+  const handleRegisterAuction = () => {
+    axios
+      .post("http://localhost:8070/auction/registerAsBidder", {
+        auctionId: auction._id,
+        userId: bidderData._id, 
+      })
+      .then(() => {
+        alert("Registered for the auction successfully");
+        navigate("/ItemListView"); // Navigate to ItemListView on success
+      })
+      .catch((err) => {
+        alert("Error registering for auction: " + err.message);
+      });
+  };
 
   return (
     <div className="auction-container">
@@ -160,12 +179,20 @@ export default function RegisterToAuctionAsBidder() {
         <Link to={`/RegisterToAuction/${auction._id}`} style={{ color: "white", textDecoration: "none" }}>
           <button className="btn btn-danger">Exit</button>
         </Link>
-        <Link
-          to={`/ItemListView`}
-          style={{ color: "white", textDecoration: "none" }}
+        
+          
+        <div>
+        
+          <button
+          className="btn btn-secondary btn-lg"
+          onClick={handleRegisterAuction}
+          
         >
-          <button className="btn btn-success">Register</button>
-        </Link>
+          Register
+        </button>
+
+       </div>
+        
       </div>
     </div>
   );

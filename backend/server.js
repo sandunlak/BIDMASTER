@@ -37,13 +37,19 @@ const registerRouter = require("./routes/register.js");
 const addproductRouter = require("./routes/addproduct.js");
 const adddeliveryRouter = require("./routes/adddelivery.js");
 const adddeliverypersonRouter = require("./routes/adddeliverypersonroute.js");
-const employeeRouter = require("./routes/employees.js");
+// const employeeRouter = require("./routes/employees.js");
+
+
+
 
 
 
 const salaryRouter = require("../backend/routes/SalaryRoute.js");
 const cashRouter = require("../backend/routes/CashRoute.js");
-const empRouter = require("../backend/routes/EmployeeRoute.js")
+const empRouter = require("../backend/routes/EmployeeRoute.js");
+const addRouter = require("../backend/routes/AdRoutes.js");
+const seatRoutes = require("./routes/test1");
+
 
 app.use("/item",itemRouter);
 app.use("/seller",sellerRouter);
@@ -52,23 +58,28 @@ app.use("/admin",adminRouter);
 
 ////////////////////////////////////////////      sahan      ////////////////////////////////////
 app.use("/bidder", bidderRouter);
-app.use("/employee", employeeRouter); // Add employee routes
+// app.use("/employee",employeeRouter);
 
 
 ///////////////////////////////////////////////      sadun       /////////////////////////////////
+
 app.use("/registermodel", registerRouter);
 app.use("/addproductmodel", addproductRouter); // Use the new router
 app.use("/adddeliverymodel",adddeliveryRouter);
 app.use("/adddeliveryperson",adddeliverypersonRouter);
 
-
 //////////////////////////////////////////////        supuni            ////////////////////////////
-
-
 
 app.use("/salaries", salaryRouter);
 app.use("/cash", cashRouter);
 app.use("/employee", empRouter);
+
+//////////////////////////////////////////////// thaveesha    /////////////////////////////////////
+app.use("/ads",addRouter);
+
+
+///////////////////////////////////  anupama   /////////////////////////////////
+app.use("/test1", seatRoutes);
 
 
 app.listen(PORT,() => {

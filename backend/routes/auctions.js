@@ -4,6 +4,7 @@ const Item = require("../models/item"); // Assuming you have an Item model
 const Seller = require("../models/seller");
 const path = require('path');
 
+const Bidder = require('../models/bidder');
 const express = require("express");
 const app = express();
 
@@ -19,6 +20,7 @@ const storage = multer.diskStorage({
         cb(null, Date.now() + '-' + file.originalname); // Unique filename
     }
 });
+
 
 const upload = multer({ storage: storage });
 // Route to add an auction with image upload
@@ -87,6 +89,35 @@ router.post("/register", async (req, res) => {
   });
 
 
+  // Route to register a bidder for an auction
+router.post("/registerAsBidder", async (req, res) => {
+
+    const { auctionId, userId } = req.body;
+    try {
+      const auction = await Auction.findById(auctionId);
+      if (!auction) {
+        return res.status(404).json({ message: "Auction not found" });
+      }
+  
+      const user = await Bidder.findById(userId);
+      if (!user) {
+        return res.status(404).json({ message: "Bidder not found" });
+      }
+  
+      // Add logic to register the user (you could maintain a list of registered users)
+      auction.registeredBidder = auction.registeredBidder || [];
+      if (auction.registeredBidder.includes(userId)) {
+        return res.status(400).json({ message: "Already registered for this auction" });
+      }
+      auction.registeredBidder.push(userId);
+  
+      await auction.save();
+      res.status(200).json({ message: "Bidder registered for auction successfully" });
+    } catch (err) {
+      res.status(500).json({ message: "Error registering for auction", error: err.message });
+    }
+  });
+
   // Route to get registered auctions for a seller
     router.post("/registered-auctions", async (req, res) => {
     const { userId } = req.body;
@@ -98,6 +129,17 @@ router.post("/register", async (req, res) => {
     }
     });
 
+
+     // Route to get registered auctions for a Bidders
+     router.post("/registered-auctions-Bidder", async (req, res) => {
+        const { userId } = req.body;
+        try {
+            const auctions = await Auction.find({ registeredBidder: userId });
+            res.status(200).json(auctions);
+        } catch (err) {
+            res.status(500).json({ message: "Error fetching registered auctions", error: err.message });
+        }
+        });
     
 
 

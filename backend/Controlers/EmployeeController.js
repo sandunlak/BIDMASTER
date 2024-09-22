@@ -25,8 +25,10 @@ const addEmployee = async (req, res, next) => {
     let employee;
 
     try {
+        
         employee = new Employee({ fullName, email, jobTitle });
         await employee.save();
+
     } catch (err) {
         console.error(err);
         return res.status(500).json({ message: "Server error occurred while adding the employee." });

@@ -85,7 +85,7 @@ export default function AdminPanel() {
                         <div className="card-body">
                             <h5 className="card-title">Bidder Management</h5>
                             <p className="card-text">Manage bidders here. You can view or manage bidder profiles.</p>
-                            <Link to="/Admin/sellers" className="btn btn-dark">Go to Bidder Management</Link>
+                            <Link to="/Admin/bidders" className="btn btn-dark">Go to Bidder Management</Link>
                         </div>
                     </div>
                 </div>
@@ -96,6 +96,16 @@ export default function AdminPanel() {
                             <h5 className="card-title">Employee Management</h5>
                             <p className="card-text">Manage Employees here. You can view or manage Employee profiles and salary.</p>
                             <Link to="/Employee" className="btn btn-dark">Go to Employee Registration</Link>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="col-md-4 mb-4">
+                    <div className="card shadow-sm">
+                        <div className="card-body">
+                            <h5 className="card-title">Seating Management</h5>
+                            <p className="card-text">Manage  Seating here. You can view or manage Seating arrangements.</p>
+                            <Link to="/AssignSeats" className="btn btn-dark">Go to Employee Registration</Link>
                         </div>
                     </div>
                 </div>

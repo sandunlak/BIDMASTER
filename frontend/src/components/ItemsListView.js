@@ -43,6 +43,7 @@ export default function ItemListView() {
 
   return (
     <div className="container mt-5">
+       <hr ></hr>
       <h1 className="text-center mb-4">ITEMS</h1>
       {/* Filter Inputs */}
       <div className="row mb-4">{/* Add form inputs for filters */}</div>

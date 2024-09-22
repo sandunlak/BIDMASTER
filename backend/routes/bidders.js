@@ -128,4 +128,30 @@ router.put("/me", authMiddleware, async (req, res) => {
   }
 });
 
+
+// Route to get all bidders
+router.get("/all", async (req, res) => {
+  try {
+      const bidders = await Bidder.find({}, '-password -username'); // Exclude password and username
+      res.json(bidders);
+  } catch (error) {
+      console.error(error);
+      res.status(500).send("Server error");
+  }
+});
+
+// Route to delete a bidder by ID
+router.delete('/delete/:id', async (req, res) => {
+  try {
+      const { id } = req.params;
+      const deletedBidder = await Bidder.findByIdAndDelete(id);
+      if (!deletedBidder) {
+          return res.status(404).json({ message: "Bidder not found" });
+      }
+      res.json({ message: "Bidder deleted successfully", bidderId: id });
+  } catch (err) {
+      res.status(500).json({ message: "Error deleting bidder", error: err.message });
+  }
+});
+
 module.exports = router;

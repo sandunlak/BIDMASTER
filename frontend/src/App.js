@@ -64,6 +64,29 @@ import UpdateSalary from "./components/Salary/UpdateSalary";
 
 
 
+////////////////////// thaveesha //////////////////////////
+import Dashboard from "./components/Dashboard/Dashboard";
+import AdvertismentDetails from "./components/Advertisment/Advertisement";
+import AddAdvertisment from "./components/AddAdvertisment/AddAdvertisment";
+import UpdateAdvertisement from "./components/UpdateAdvertisement/UpdateAdvertisement"; 
+import ManageBidders from './components/bidder/ManageBidders';
+
+
+
+
+
+
+
+
+/////////////////////////////// anupama//////////////////////////
+import AssignSeats from './components/AssignSeats';
+import Table from './components/Table';
+import SeatingPlan from './components/SeatingPlan';
+
+
+import BMICH from './components/BMICH';
+import NegomboRegal from './components/NegomboRegal';
+import JoashPlaceMaharagama from './components/JoashPlaceMaharagama';
 
 
 function App() {
@@ -106,6 +129,7 @@ function App() {
 //sahan routes
           <Route path="/BidderSignUp" element={<BidderSignUp />} />
           <Route path="/Employee" element={<EmployeeSignUp />} />
+          <Route path="/Admin/bidders" element={<ManageBidders/>} />
 
           
 
@@ -144,11 +168,32 @@ function App() {
                     <Route path="/updateSalary/:id" element={<UpdateSalary />} />
 
         
+
+
+        //thaveesha
+          <Route path="/mainDashboard" element={<Dashboard />} />
+          <Route path="/AddAdvertisement" element={<AddAdvertisment />} />
+          <Route path="/AdvertisementDetails" element={<AdvertismentDetails />} />
+          <Route path="/update-advertisement/:id" element={<UpdateAdvertisement />} />
+          
+
+
+
+
+
+//anupama
+
+      <Route path='/AssignSeats' element={<AssignSeats/>}/>
+      <Route path='/Table' element={<Table/>}/>
+      <Route path='/SeatingPlan' element={<SeatingPlan/>}/>
+
+      <Route path='/BMICH' element={<BMICH/>}/>
+      <Route path='/NegomboRegal' element={<NegomboRegal/>}/>
+      <Route path='/JoashPlaceMaharagama' element={<JoashPlaceMaharagama/>}/>
+
+
+
         </Routes>
-
-       
-       
-
         <Footer />
         </main>
     </div>
