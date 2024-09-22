@@ -39,52 +39,57 @@ export default function Jewellery() {
             <hr></hr>
             <br></br>
 
-            {/* Show loading spinner when items are still being fetched */}
-            {loading ? (
-                <div className="text-center">
-                    <Spinner animation="border" role="status">
-                        <span className="visually-hidden">Loading...</span>
-                    </Spinner>
+            <div className="row">
+        {/* Show loading spinner when items are still being fetched */}
+        {loading ? (
+          <div className="text-center">
+            <Spinner animation="border" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
+          </div>
+        ) : (
+          items.map((item, index) => (
+            <div key={index} className="col-md-3 mb-4">
+              <div className="card h-100">
+                <img
+                  src={item.images[0]?.data || "placeholder-image-url"}
+                  alt={item.name}
+                  className="card-img-top"
+                  style={{
+                    width: "100%",
+                    height: "200px",
+                    backgroundColor: "#f0f0f0",
+                  }}
+                />
+                <div className="card-body">
+                  <h5 className="card-title">{item.name}</h5>
+                  <p className="card-text">{item.description}</p>
+                  <p className="card-text">
+                    <strong>Category:</strong> {item.category}
+                  </p>
+                  <p className="card-text">
+                    <strong>Brand:</strong> {item.brand}
+                  </p>
+                  <p className="card-text">
+                    <strong>Starting Price:</strong> ${item.startingPrice}
+                  </p>
+                  <button className="btn btn-outline-dark ms-2" type="submit">
+                    View Item
+                  </button>
+                  <button
+                    className="btn btn-outline-danger"
+                    style={{ float: "right" }}
+                  >
+                    <FontAwesomeIcon icon={faHeart} />
+                  </button>
                 </div>
-            ) : (
-                <div className="row">
-                    {items.length === 0 ? (
-                        <div className="col-12 text-center">
-                            <p>No items match your search criteria.</p>
-                        </div>
-                    ) : (
-                        items.map((item, index) => (
-                            <div key={index} className="col-md-3 mb-4">
-                                <div className="card h-100">
-                                    <img
-                                        src={item.images[0]?.data || 'placeholder-image-url'}
-                                        alt={item.name}
-                                        className="card-img-top"
-                                        style={{
-                                            width: '100%',
-                                            height: '200px',
-                                            backgroundColor: '#f0f0f0'
-                                        }}
-                                    />
-                                    <div className="card-body">
-                                        <h5 className="card-title">{item.name}</h5>
-                                        <p className="card-text">{item.description}</p>
-                                        <p className="card-text"><strong>Category:</strong> {item.category}</p>
-                                        <p className="card-text"><strong>Brand:</strong> {item.brand}</p>
-                                        <p className="card-text"><strong>Starting Price:</strong> ${item.startingPrice}</p>
-                                        <button className="btn btn-outline-dark ms-2" type="submit">View Item</button>
-                                        <button className="btn btn-outline-danger" style={{ float: 'right' }}>
-                                            <FontAwesomeIcon icon={faHeart} />
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        ))
-                    )}
-                </div>
-            )}
+              </div>
+            </div>
+          ))
+        )}
+      </div>
 
-            <style>{`
+<style>{`
                 .card {
                     transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
                 }

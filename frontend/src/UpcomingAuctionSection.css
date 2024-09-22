@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gabriela+Stencil&display=swap');
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 20px;
+    position: relative;
+}
+
+.banner {
+    background-color: #f0f0f0;
+    padding: 60px;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 1000px;
+    position: relative;
+}
+
+.ad-item {
+    display: flex;
+    align-items: center;
+}
+
+.ad-image {
+    width: 400px;
+    height: 200px;
+    object-fit: contain;
+    margin-right: 20px;
+}
+
+.ad-details {
+    flex: 1;
+}
+
+.ad-title {
+    font-family: 'Gabriela Stencil', cursive; /* Title font */
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.ad-description, .ad-date {
+    font-family: 'Alex Brush', cursive; /* Description and date font */
+    font-size: 1.6rem;
+    line-height: 1.5;
+    margin-bottom: 5px;
+}
+
+.no-advertisements {
+    font-size: 1.5rem;
+    color: #333;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.navigation-arrows {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1000px;
+    padding: 0 20px;
+}
+
+.arrow {
+    font-size: 30px;
+    cursor: pointer;
+    color: #c7c9cd;
+    transition: color 0.3s;
+    flex: 1;
+    text-align: center;
+}
+
+.arrow:hover {
+    color: #727070;
+}

@@ -46,6 +46,21 @@ import AddProduct from './components/delivery/AddProduct';
 import AddSalesDetails from './components/delivery/AddSalesDetails';
 import ReadProduct from './components/delivery/ReadProduct';
 import ReadSalesDetails from './components/delivery/ReadSalesDetails';
+import EmployeeSignUp from './components/bidder/Employee';
+
+
+
+//////////////////// supuni ///////////////////
+
+import Nav from "./components/Nav";
+
+import CashTable from "./components/Cash/CashTable";
+import CashForm from "./components/Cash/CashForm";
+import UpdateCash from "./components/Cash/UpdateCash";
+
+import AddSalary from "./components/Salary/AddSalary";
+import SalaryTable from "./components/Salary/SalaryTable";
+import UpdateSalary from "./components/Salary/UpdateSalary";
 
 
 
@@ -90,13 +105,13 @@ function App() {
 
 //sahan routes
           <Route path="/BidderSignUp" element={<BidderSignUp />} />
+          <Route path="/Employee" element={<EmployeeSignUp />} />
 
           
 
   <Route path="/BidderAccount" element={<BidderAccount />} />
   <Route path="/Login" element={<Login/>}/>
   <Route path="/RegisterToAuction/:id/RegisterToAuctionAsBidder" element={<RegisterToAuctionAsBidder/>}/>
-
 
           <Route path="/image" element={<ImageUpload/>} />
 
@@ -117,7 +132,16 @@ function App() {
 
           <Route path="/read" exact element={<ReadSalesDetails/>} />
           
+//supuni
+<Route path="/" element={<Nav />} />
 
+                    <Route path="/cashTable" element={<CashTable />} />
+                    <Route path="/cashForm" element={<CashForm />} />
+                    <Route path="/updateCash/:id" element={<UpdateCash />} />
+
+                    <Route path="/addSalary/:id" element={<AddSalary />} />
+                    <Route path="/salaryTable" element={<SalaryTable />} />
+                    <Route path="/updateSalary/:id" element={<UpdateSalary />} />
 
         
         </Routes>
