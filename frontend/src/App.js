@@ -47,7 +47,8 @@ import AddSalesDetails from './components/delivery/AddSalesDetails';
 import ReadProduct from './components/delivery/ReadProduct';
 import ReadSalesDetails from './components/delivery/ReadSalesDetails';
 import EmployeeSignUp from './components/bidder/Employee';
-
+import MyOrders from "./components/delivery/MyOrders";
+import DeliverPersonEdit from "./components/delivery/DeliverPersonEdit";
 
 
 //////////////////// supuni ///////////////////
@@ -91,6 +92,12 @@ import ItemListView from './components/ItemsListView';
 import Item from './components/Item';
 
 
+
+///////////////////////// ameshaa //////////////////////////////
+
+import PaymentForm from './components/paymentform'; // Import PaymentForm
+import PaymentList from './components/PaymentList'; // Import PaymentList
+import EditPaymentForm from './components/EditPaymentForm'; // Import EditPaymentForm
 function App() {
   return (
     <Router>
@@ -157,6 +164,8 @@ function App() {
           <Route exact path="/" component={ReadProduct} />
 
           <Route path="/adddelivery" component={AddDelivery} />
+          <Route path="/myorders" element={<MyOrders />} />
+          <Route path="/deliveryboy" element={<DeliverPersonEdit />} />
 
 
           <Route path="/read" exact element={<ReadSalesDetails/>} />
@@ -192,7 +201,10 @@ function App() {
       <Route path='/NegomboRegal' element={<NegomboRegal/>}/>
       <Route path='/JoashPlaceMaharagama' element={<JoashPlaceMaharagama/>}/>
 
-
+// amesha
+<Route path="/payment" element={<PaymentForm />} /> {/* Add Payment Form route */}
+            <Route path="/payments" element={<PaymentList />} /> {/* Add Payment List route */}
+            <Route path="/edit/:id" element={<EditPaymentForm />} /> {/* Add Edit Payment Form route */}
 
         </Routes>
         <Footer />

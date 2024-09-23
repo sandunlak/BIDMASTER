@@ -19,23 +19,17 @@ export default function BidderSignUp() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    // Handle input changes
     setFormData({ ...formData, [name]: value });
-
-    // Validate fields
     validateField(name, value);
   };
 
   const handleKeyPress = (e) => {
-    // Allow only letters and spaces for name fields
     if (
       (e.target.name === "firstName" || e.target.name === "lastName") &&
       !/[a-zA-Z\s]/.test(e.key)
     ) {
       e.preventDefault();
     }
-    // Allow only digits (0-9) and prevent non-digit input for contactInfo
     if (e.target.name === "contactInfo" && !/[0-9+]/.test(e.key)) {
       e.preventDefault();
     }
@@ -85,7 +79,6 @@ export default function BidderSignUp() {
           ? "Future dates are not allowed."
           : fieldErrors.birthday;
         break;
-
       default:
         fieldErrors[name] = value ? "" : "This field is required.";
         break;
@@ -93,8 +86,13 @@ export default function BidderSignUp() {
 
     setErrors(fieldErrors);
   };
-  // Set today's date in yyyy-mm-dd format
+
   const today = new Date().toISOString().split("T")[0];
+
+  // Set max date to 16 years ago from today
+  const maxDate = new Date();
+  maxDate.setFullYear(maxDate.getFullYear() - 16);
+  const maxDateString = maxDate.toISOString().split("T")[0];
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -141,7 +139,7 @@ export default function BidderSignUp() {
               id="firstName"
               name="firstName"
               value={formData.firstName}
-              onKeyDown={handleKeyPress} // Restrict input to letters only
+              onKeyDown={handleKeyPress}
               onChange={handleChange}
               required
             />
@@ -157,7 +155,7 @@ export default function BidderSignUp() {
               id="lastName"
               name="lastName"
               value={formData.lastName}
-              onKeyDown={handleKeyPress} // Restrict input to letters only
+              onKeyDown={handleKeyPress}
               onChange={handleChange}
               required
             />
@@ -238,7 +236,7 @@ export default function BidderSignUp() {
               className="form-control"
               id="contactInfo"
               name="contactInfo"
-              onKeyPress={handleKeyPress} // Restrict input to digits only
+              onKeyPress={handleKeyPress}
               maxLength={12} // +94 + 9 digits
               placeholder="Enter number starting with +94 or 0"
               value={formData.contactInfo}
@@ -260,7 +258,7 @@ export default function BidderSignUp() {
               name="birthday"
               value={formData.birthday}
               onChange={handleChange}
-              max={today} // Restrict future dates
+              max={maxDateString} // Restrict dates for users under 16
               required
             />
             {errors.birthday && (
@@ -275,5 +273,3 @@ export default function BidderSignUp() {
     </div>
   );
 }
-
-

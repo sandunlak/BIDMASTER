@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-import DeliveryHeader from "../delivery/DeliveryHeader";
+
 
 export default function AddDelivery() {
   const [dDate, setdDate] = useState("");
   const [dTime, setdTime] = useState("");
   const [dStates, setdStates] = useState("");
+  const [dateError, setDateError] = useState(""); // State for error message
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const productId = queryParams.get("productId");
@@ -30,10 +31,19 @@ export default function AddDelivery() {
   function sendData(e) {
     e.preventDefault();
 
+    const today = new Date().toISOString().split("T")[0];
+    if (dDate < today) {
+        setDateError("Delivery date cannot be before today.");
+        return;
+    } else {
+        setDateError(""); 
+    }
+
     const adddeliverys = {
-      dDate,
-      dTime,
-      dStates,
+        productId,  // Pass productId to link the delivery to the product
+        dDate,
+        dTime,
+        dStates,
     };
 
     axios
@@ -47,27 +57,30 @@ export default function AddDelivery() {
       .catch((err) => {
         alert(err);
       });
-  }
+}
+
 
   return (
     <div className="container">
-      <DeliveryHeader/>
+    
       <form onSubmit={sendData}>
         <div className="form-group">
           <label htmlFor="dDate">Delivery Date</label>
           <input
-            type="text"
+            type="date"
             className="form-control"
             id="dDate"
             placeholder="Enter delivery date"
             value={dDate}
             onChange={(e) => setdDate(e.target.value)}
           />
+          {/* Display error message below the date field */}
+          {dateError && <small className="text-danger">{dateError}</small>}
         </div>
         <div className="form-group">
           <label htmlFor="dTime">Delivery Time</label>
           <input
-            type="text"
+            type="time"
             className="form-control"
             id="dTime"
             placeholder="Enter delivery time"

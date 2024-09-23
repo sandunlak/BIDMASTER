@@ -118,7 +118,18 @@ export default function AdminPanel() {
                         </div>
                     </div>
                 </div>
-
+                <div className="col-md-4 mb-4">
+                    <div className="card shadow-sm">
+                        <div className="card-body">
+                            <h5 className="card-title">Delivery Management</h5>
+                            <p className="card-text">delivery  Management here. You can view or manage delivery.</p>
+                            <Link to="/deliveryboy" className="btn btn-dark">go to delivery</Link>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+              
 
 
 

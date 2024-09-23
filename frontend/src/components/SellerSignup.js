@@ -19,6 +19,7 @@ function SellerSignUp() {
     birthday: "",
   });
 
+
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
@@ -65,6 +66,16 @@ function SellerSignUp() {
     if (e.target.name === "contactInfo" && !/[0-9]/.test(e.key)) {
       e.preventDefault();
     }
+    if (e.target.name === "email") {
+      const input = e.target.value;
+      const atSymbol = e.key === "@";
+  
+      if ((atSymbol && input.length === 0) || 
+      (atSymbol && input.includes("@")) || // Prevent multiple '@' symbols
+      (!/[a-z0-9@.]/.test(e.key) && e.key !== "Backspace" && e.key !== "Delete")) {
+      e.preventDefault();
+  }
+  }
   };
 
   const validateField = (name, value) => {
@@ -79,7 +90,8 @@ function SellerSignUp() {
           : "Name must contain only letters and spaces.";
         break;
       case "email":
-        fieldErrors.email = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)
+        fieldErrors.email = value.match(/^(?!@)[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/)
+
           ? ""
           : "Invalid email address.";
         break;
@@ -198,6 +210,7 @@ function SellerSignUp() {
               id="email"
               name="email"
               value={formData.email}
+              onKeyDown={handleKeyPress} 
               onChange={handleChange}
               required
             />

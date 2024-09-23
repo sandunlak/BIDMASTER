@@ -49,7 +49,7 @@ const cashRouter = require("../backend/routes/CashRoute.js");
 const empRouter = require("../backend/routes/EmployeeRoute.js");
 const addRouter = require("../backend/routes/AdRoutes.js");
 const seatRoutes = require("./routes/test1");
-
+const paymentRouter = require("./routes/payment");
 
 app.use("/item",itemRouter);
 app.use("/seller",sellerRouter);
@@ -81,9 +81,11 @@ app.use("/ads",addRouter);
 ///////////////////////////////////  anupama   /////////////////////////////////
 app.use("/test1", seatRoutes);
 
+///////////////////////////////////// amesh //////////////////////////////
+app.use("/payment", paymentRouter);
 
-
-
+// Serve static files (for file uploads)
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 
 

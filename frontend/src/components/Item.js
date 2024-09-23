@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams,Link } from "react-router-dom";
 import axios from 'axios';
+
 
 const Item = () => {
     const { id } = useParams();
@@ -97,7 +98,19 @@ const Item = () => {
                                 </form>
                                 {bidError && <p className="text-danger">{bidError}</p>}
                                 {isAuctionClosed && isHighestBidder && (
-                                    <button className="btn btn-success mt-2">Buy Item</button>
+                                    <button className="btn btn-success mt-2">
+                                        <Link
+                                        to="/payment"
+                                        style={
+                                            {
+                                                textDecoration: 'none',
+                                                color:"white"
+                                            }
+                                        }
+                                        >
+                                            Buy Item
+                                        </Link>
+                                    </button>
                                 )}
                             </div>
                         </div>

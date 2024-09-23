@@ -156,30 +156,8 @@ export default function BidderAccount() {
                       />
                     </Col>
                   </Form.Group>
-                  <Form.Group as={Row} className="mb-3">
-                    <Form.Label column sm="3">
-                      <strong>NIC :</strong>
-                    </Form.Label>
-                    <Col sm="9">
-                      <Form.Control
-                        plaintext
-                        readOnly
-                        defaultValue="200214578952"
-                      />
-                    </Col>
-                  </Form.Group>
-                  <Form.Group as={Row} className="mb-3">
-                    <Form.Label column sm="3">
-                      <strong>Company :</strong>
-                    </Form.Label>
-                    <Col sm="9">
-                      <Form.Control
-                        plaintext
-                        readOnly
-                        defaultValue={bidderData.companyName || "N/A"}
-                      />
-                    </Col>
-                  </Form.Group>
+                  
+                  
                   <Form.Group as={Row} className="mb-3">
                     <Form.Label column sm="3">
                       <strong>Birth Day :</strong>
@@ -211,6 +189,17 @@ export default function BidderAccount() {
                     <Button variant="danger" onClick={handleLogout}>
                       Logout
                     </Button>
+                    <Button variant="primary">
+                    <a
+                      href="/myorders"
+                      style={{
+                        color: "white",
+                        textDecoration: "none",
+                      }}
+                    >
+                      my orders
+                    </a>
+                  </Button>
                   </div>
                   <a href="/Admin">Admin?</a>
                 </Form>

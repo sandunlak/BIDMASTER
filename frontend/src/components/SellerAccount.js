@@ -300,18 +300,7 @@ export default function SellerAccount() {
                       />
                     </Col>
                   </Form.Group>
-                  <Form.Group as={Row} className="mb-3">
-                    <Form.Label column sm="3">
-                      <strong>NIC :</strong>
-                    </Form.Label>
-                    <Col sm="9">
-                      <Form.Control
-                        plaintext
-                        readOnly
-                        defaultValue="200214578952"
-                      />
-                    </Col>
-                  </Form.Group>
+                  
                   <Form.Group as={Row} className="mb-3">
                     <Form.Label column sm="3">
                       <strong>Company :</strong>
