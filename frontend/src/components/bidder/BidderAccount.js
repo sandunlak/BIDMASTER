@@ -98,9 +98,7 @@ export default function BidderAccount() {
                 Registered auction
               </Nav.Link>
             </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="analytics">Analytics</Nav.Link>
-            </Nav.Item>
+           
             <Nav.Item>
               <Nav.Link eventKey="edit-profile">Edit profile</Nav.Link>
             </Nav.Item>
@@ -214,6 +212,7 @@ export default function BidderAccount() {
                       Logout
                     </Button>
                   </div>
+                  <a href="/Admin">Admin?</a>
                 </Form>
               </>
             )}

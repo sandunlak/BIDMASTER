@@ -82,11 +82,63 @@ app.use("/ads",addRouter);
 app.use("/test1", seatRoutes);
 
 
+
+
+
+
+
+
+const Schema = mongoose.Schema;
+
+////////////////////////////////////////   wasantha    ////////////////////////////////
+
+// Bid Schema
+const bidSchema = new mongoose.Schema({
+    itemId: String,
+    amount: Number,
+    
+    
+});
+
+const Bid = mongoose.model('Bid', bidSchema);
+
+
+
+
+// Fetch ongoing bids for an item
+app.get('/item/:id/bids', async (req, res) => {
+    const bids = await Bid.find({ itemId: req.params.id });
+    res.json(bids);
+});
+
+// Submit a new bid
+app.post('/item/:id/bids', async (req, res) => {
+    const newBid = new Bid({
+        itemId: req.params.id,
+        amount: req.body.amount,
+    });
+    await newBid.save();
+    res.status(201).json(newBid);
+});
+
+// Delete all bids for a specific item
+app.delete('/item/:id/bids', async (req, res) => {
+    try {
+        await Bid.deleteMany({ itemId: req.params.id });
+        res.status(200).send({ message: "All bids removed successfully." });
+    } catch (error) {
+        res.status(500).send({ message: "Error removing bids", error });
+    }
+});
+
 app.listen(PORT,() => {
     console.log(`server is up and running on port number: ${PORT}`)
 })
 
 //back end URL for item list manupulation
+
+
+
 
 
 //////////////////////////////////////////////////////////////////////////////////

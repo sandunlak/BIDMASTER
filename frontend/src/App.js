@@ -87,6 +87,8 @@ import SeatingPlan from './components/SeatingPlan';
 import BMICH from './components/BMICH';
 import NegomboRegal from './components/NegomboRegal';
 import JoashPlaceMaharagama from './components/JoashPlaceMaharagama';
+import ItemListView from './components/ItemsListView';
+import Item from './components/Item';
 
 
 function App() {
@@ -98,6 +100,8 @@ function App() {
        
      
         <Routes>
+
+        <Route path="/" element={<ItemListPage/>} />
 
           <Route path="/Auctions" element={<Auctions/>} />
           <Route path="/AuctionHouses" element={<AuctionHouses/>} />
@@ -123,6 +127,7 @@ function App() {
           <Route path="/Admin/items" element={<ManageItems/>} />
           <Route path="/Admin/sellers" element={<ManageSellers/>} />
 
+          <Route path="/Item/:id" element={<Item/>} />  //in construction mode
 
           <Route path="/ItemListView" element={<ItemListPage/>} />
 
@@ -157,7 +162,7 @@ function App() {
           <Route path="/read" exact element={<ReadSalesDetails/>} />
           
 //supuni
-<Route path="/" element={<Nav />} />
+                    <Route path="/" element={<Nav />} />
 
                     <Route path="/cashTable" element={<CashTable />} />
                     <Route path="/cashForm" element={<CashForm />} />
@@ -176,10 +181,6 @@ function App() {
           <Route path="/AdvertisementDetails" element={<AdvertismentDetails />} />
           <Route path="/update-advertisement/:id" element={<UpdateAdvertisement />} />
           
-
-
-
-
 
 //anupama
 

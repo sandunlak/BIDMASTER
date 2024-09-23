@@ -82,7 +82,9 @@ export default function CreateItemListing() {
     formData.append("material", material);
     formData.append("condition", condition);
     formData.append("auction", selectedAuction);
-    formData.append("seller",sellerData);
+    formData.append("seller", sellerData._id); // Assuming sellerData has _id
+
+    console.log(sellerData._id);
 
     images.forEach((image) => {
       formData.append("images", image);
@@ -91,7 +93,6 @@ export default function CreateItemListing() {
     axios.post("http://localhost:8070/item/add", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
-        
       },
     })
       .then((res) => {
@@ -123,7 +124,8 @@ export default function CreateItemListing() {
         navigate("/ItemListView"); // Navigate to ItemListView on success
       })
       .catch((err) => {
-        alert("Error registering for auction: " + err.message);
+        alert("Already Registered for the auction");
+        navigate("/ItemListView");
       });
   };
 

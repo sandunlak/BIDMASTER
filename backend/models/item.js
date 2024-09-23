@@ -45,10 +45,9 @@ const ItemSchema  = new Schema({
           contentType: String // Store the image content type (e.g., 'image/jpeg')
         }
       ],
-      seller:{
-            type: Array,
-            ref:'Seller'
-      }
+      registeredSeller: [{ 
+        type: Schema.Types.ObjectId,
+         ref: "Seller" }],
       
     }, 
     {

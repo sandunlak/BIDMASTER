@@ -71,11 +71,28 @@ export default function Header() {
 
   return (
     <div>
-    {sellerName && (
+     <div 
+     style={{ color: "white", 
+      marginRight: "15px",
+      backgroundColor:"black",
+      width:"100%",
+      
+     }}>
+     {sellerName && (
       <span
-        style={{ color: "black", marginRight: "15px" }}
-      >{`Welcome, ${sellerName}`}</span>
+        style={{ color: "white", 
+          marginRight: "15px",
+          backgroundColor:"black",
+          width:"100%",
+          paddingTop:"50"
+
+
+          
+         }}
+      >{`Welcome back! ${sellerName} ....`}</span>
     )}
+     </div>
+    
     <nav className="navbar" style={{ background: "black" }}>
       <div className="container-fluid d-flex justify-content-between align-items-center">
         <a
@@ -164,7 +181,7 @@ export default function Header() {
             <input
               type="text"
               className="form-control mb-2"
-              placeholder="Search by name"
+              placeholder="Search Items by name"
               name="search"
               value={search}
               onChange={handleSearchChange}
@@ -232,10 +249,17 @@ export default function Header() {
                 ></i>
               </Link>
             </button>
+            
           )}
+          
         </div>
+    
       </div>
+     
+     
+    
     </nav>
+    
     {/* Page navigation bar */}
     <nav className="navbar navbar-expand-lg ">
       <div className="container-fluid">

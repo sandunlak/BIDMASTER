@@ -5,6 +5,7 @@ import axios from 'axios';
 import '../AuctionDetail.css';
 
 export default function AuctionDetail() {
+    
     const { id } = useParams();
     const [auction, setAuction] = useState(null);
     const [loading, setLoading] = useState(true);

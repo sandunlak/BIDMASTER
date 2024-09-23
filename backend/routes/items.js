@@ -10,8 +10,9 @@ const upload = multer({ storage: storage });
 // Route to add a new item
 router.route("/add").post(upload.array('images', 10), async (req, res) => {
     try {
-        const { name, startingPrice, description, category, brand, features, material, condition,seller } = req.body;
+        const { name, startingPrice, description, category, brand, features, material, condition,registeredSeller } = req.body;
 
+        console.log("seller id is : ",registeredSeller)
         const images = req.files.map(file => ({
             data: file.buffer,
             contentType: file.mimetype
@@ -27,7 +28,8 @@ router.route("/add").post(upload.array('images', 10), async (req, res) => {
             features,
             material,
             condition,
-            seller
+            registeredSeller 
+
         });
 
         const savedItem = await newItem.save();
@@ -46,13 +48,11 @@ router.route("/add").post(upload.array('images', 10), async (req, res) => {
 });
 
 
-// Route to get items with optional filters
 router.get('/', async (req, res) => {
     try {
         const { search, category, brand, minPrice, maxPrice } = req.query;
-
         let filter = {};
-        
+
         if (search) {
             filter.name = { $regex: search, $options: "i" }; // case-insensitive search
         }
@@ -69,25 +69,48 @@ router.get('/', async (req, res) => {
             };
         }
 
-        const items = await Item.find(filter);
-        
+        const items = await Item.find(filter).populate('registeredSeller'); // Populate seller data
 
         const itemsWithBase64Images = items.map(item => ({
             ...item._doc,
             images: item.images.map(image => ({
                 data: `data:${image.contentType};base64,${image.data.toString('base64')}`
-            }))
+            })),
+            seller: item.registeredSeller // Add seller info to the response
         }));
 
         res.json(itemsWithBase64Images);
-
     } catch (error) {
         console.error(error);
         res.status(500).send("Server error");
     }
 });
 
-
+// Route to get item details by ID
+router.get('/:id', async (req, res) => {
+    const { id } = req.params; // Extract ID from the request parameters
+    try {
+        // Find item by ID in the database
+        const item = await Item.findById(id);
+        if (!item) {
+            return res.status(404).json({ message: "Item not found" });
+        }
+        
+        // Prepare item data with base64 images
+        const itemWithBase64Images = {
+            ...item._doc,
+            images: item.images.map(image => ({
+                data: `data:${image.contentType};base64,${image.data.toString('base64')}`
+            }))
+        };
+        
+        // Send the item details as a JSON response
+        res.json(itemWithBase64Images);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error fetching item details", error: error.message });
+    }
+});
 
 // Route to delete an item by name
 router.delete('/delete/:name', async (req, res) => {
@@ -166,5 +189,7 @@ router.get('/analytics/categories', async (req, res) => {
         res.status(500).json({ message: "Error fetching category data", error: err.message });
     }
 });
+
+
 
 module.exports = router;

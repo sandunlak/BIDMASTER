@@ -109,6 +109,15 @@ export default function AdminPanel() {
                         </div>
                     </div>
                 </div>
+                <div className="col-md-4 mb-4">
+                    <div className="card shadow-sm">
+                        <div className="card-body">
+                            <h5 className="card-title">Advertiesment Management</h5>
+                            <p className="card-text"><p>Manage  Advertiesment here. You can view or manage Advertiesment.</p></p>
+                            <Link to="/mainDashboard" className="btn btn-dark">go to Advertising</Link>
+                        </div>
+                    </div>
+                </div>
 
 
 

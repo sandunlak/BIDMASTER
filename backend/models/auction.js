@@ -36,7 +36,7 @@ const AuctionSchema =  new Schema({
     },
     registeredBidder: [{ 
         type: Schema.Types.ObjectId,
-         ref: "Seller" }],
+         ref: "Bidder" }],
          
     registeredUsers: [{ 
         type: Schema.Types.ObjectId,

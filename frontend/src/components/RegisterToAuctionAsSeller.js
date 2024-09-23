@@ -10,6 +10,7 @@ export default function RegisterToAuctionAsSeller() {
   const [loading, setLoading] = useState(true);
   const navigate=useNavigate();
 
+  //fetch auction
   useEffect(() => {
     axios.get(`http://localhost:8070/auction/${id}`)
       .then(response => {

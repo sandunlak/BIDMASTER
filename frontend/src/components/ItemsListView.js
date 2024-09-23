@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { useLocation } from "react-router-dom";
+import { Link} from "react-router-dom";
 
 export default function ItemListView() {
   const [items, setItems] = useState([]);
@@ -88,8 +89,13 @@ export default function ItemListView() {
                     <p className="card-text">
                       <strong>Starting Price:</strong> ${item.startingPrice}
                     </p>
-                    <button className="btn btn-primary" type="submit">
-                      View Item
+                    <button className="btn btn-dark" type="submit">
+                    <Link to={`/Item/${item._id}`} 
+                    className="text-white text-decoration-none"
+                    >
+                    View Item
+                    </Link>
+                      
                     </button>
                     <button
                       className="btn btn-outline-danger"

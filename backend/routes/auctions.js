@@ -287,7 +287,6 @@ router.route("/delete/:id").delete(async (req, res) => {
     }
 });
 
-
 // Route to get the most registered auctions
 router.get("/most-registered", async (req, res) => {
     try {
@@ -301,5 +300,24 @@ router.get("/most-registered", async (req, res) => {
         res.status(500).json({ message: "Error fetching most registered auctions", error: err.message });
     }
 });
+
+
+
+// Route to get the number of registered bidders for each auction
+router.get("/registered-bidders-count", async (req, res) => {
+    try {
+      const auctions = await Auction.find({}, 'title registeredBidder'); // Fetch auctions with only title and registeredBidder fields
+  
+      const auctionBiddersData = auctions.map(auction => ({
+        title: auction.title,
+        bidderCount: auction.registeredBidder.length, // Count the number of registered bidders
+      }));
+  
+      res.status(200).json(auctionBiddersData);
+    } catch (err) {
+      res.status(500).json({ message: "Error fetching bidder counts", error: err.message });
+    }
+  });
+
 
 module.exports = router;
