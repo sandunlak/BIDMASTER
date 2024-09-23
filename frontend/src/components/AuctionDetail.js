@@ -86,7 +86,13 @@ export default function AuctionDetail() {
                                         />
                                         <h5>{item.name}</h5>
                                         <p>Starting Price: ${item.startingPrice}</p>
-                                        <Button variant="secondary">View</Button>
+                                        <Button variant="secondary">
+                                        <Link to={`/Item/${item._id}`} 
+                    className="text-white text-decoration-none"
+                    >
+                    View Item
+                    </Link>
+                                        </Button>
                                     </Card>
                                 </Col>
                             ))}

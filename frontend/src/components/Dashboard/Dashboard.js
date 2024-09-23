@@ -1,19 +1,42 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Nav from '../Nav2/Nav2';
 import {
   PieChart, Pie, Cell,
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
   AreaChart, Area
 } from 'recharts';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from 'axios';
+
+const URL = "http://localhost:8070/ads";
 
 function Dashboard() {
-  // Data for each chart
-  const facebookData = [
-    { name: 'Budget', value: 500 },
-    { name: 'Clicks', value: 1200 },
-    { name: 'CTR', value: 25 }, // Multiply by 10 for better visualization in the chart
-  ];
+  const [adsCatData, setAdsCatData] = useState([]);
+  const [animationKey, setAnimationKey] = useState(0); // State for re-rendering
+
+  useEffect(() => {
+    const fetchAdsData = async () => {
+      try {
+        const response = await axios.get(URL);
+        const advertisements = response.data.ads;
+        const titleCounts = {};
+
+        // Count advertisements by title
+        advertisements.forEach(ad => {
+          titleCounts[ad.title] = (titleCounts[ad.title] || 0) + 1;
+        });
+
+        // Convert to format required for PieChart
+        const formattedData = Object.entries(titleCounts).map(([name, value]) => ({ name, value }));
+
+        setAdsCatData(formattedData);
+        setAnimationKey(prevKey => prevKey + 1); // Change key to trigger re-render
+      } catch (error) {
+        console.error("Error fetching advertisement data:", error);
+      }
+    };
+
+    fetchAdsData();
+  }, []);
 
   const noOfAdsData = [
     { name: 'Active', value: 5 },
@@ -37,106 +60,164 @@ function Dashboard() {
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
   return (
-    <div className="dashboard-container">
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <Nav />
-      <div className="container">
-        <section className="portfolio-section">
-          <h2 className="my-4">Your Advertisement Progress</h2>
-          <div className="row">
-            {/* Facebook Campaign Data - Pie Chart */}
-            <div className="col-md-4 mb-4">
-              <div className="card">
-                <div className="card-body text-center">
-                  <h3>Facebook</h3>
-                  <PieChart width={200} height={200}>
-                    <Pie
-                      data={facebookData}
-                      cx="50%"
-                      cy="50%"
-                      labelLine={false}
-                      outerRadius={80}
-                      fill="#8884d8"
-                      dataKey="value"
-                    >
-                      {facebookData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                      ))}
-                    </Pie>
-                    <Tooltip />
-                  </PieChart>
-                </div>
-              </div>
+      <div style={{ flex: 1, padding: '20px', marginLeft: '250px', backgroundColor: '#f9f9f9' }}>
+        <section style={{ marginBottom: '100px' }}> {/* Increased space here */}
+          <h2>Your Advertisement Progress</h2>
+          <div style={{ marginBottom: '20px' }} />
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+            gap: '20px',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}>
+
+            {/* Advertisement Categories - Pie Chart */}
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              textAlign: 'center',
+              backgroundColor: 'rgba(255, 255, 255, 0.8)',
+              border: '1px solid #ddd',
+              borderRadius: '5px',
+              padding: '10px',
+              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+            }}>
+              <h3>Advertisement Categories</h3>
+              <PieChart width={200} height={200} key={animationKey}>
+                <Pie
+                  data={adsCatData}
+                  cx="50%"
+                  cy="50%"
+                  labelLine={false}
+                  outerRadius={80}
+                  fill="#8884d8"
+                  dataKey="value"
+                  animationDuration={800}
+                  animationEasing="ease-out"
+                >
+                  {adsCatData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip />
+              </PieChart>
             </div>
 
             {/* No of Advertisements - Doughnut Chart */}
-            <div className="col-md-4 mb-4">
-              <div className="card">
-                <div className="card-body text-center">
-                  <h3>No of Advertisements</h3>
-                  <PieChart width={200} height={200}>
-                    <Pie
-                      data={noOfAdsData}
-                      cx="50%"
-                      cy="50%"
-                      innerRadius={40}
-                      outerRadius={80}
-                      fill="#82ca9d"
-                      paddingAngle={5}
-                      dataKey="value"
-                    >
-                      {noOfAdsData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                      ))}
-                    </Pie>
-                    <Tooltip />
-                  </PieChart>
-                </div>
-              </div>
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              textAlign: 'center',
+              backgroundColor: 'rgba(255, 255, 255, 0.8)',
+              border: '1px solid #ddd',
+              borderRadius: '5px',
+              padding: '10px',
+              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+            }}>
+              <h3>No of Advertisements</h3>
+              <PieChart width={200} height={200} key={animationKey}>
+                <Pie
+                  data={noOfAdsData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={40}
+                  outerRadius={80}
+                  fill="#82ca9d"
+                  paddingAngle={5}
+                  dataKey="value"
+                  animationDuration={800}
+                  animationEasing="ease-out"
+                >
+                  {noOfAdsData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip />
+              </PieChart>
             </div>
 
             {/* Advertisement Progress - Horizontal Bar Chart */}
-            <div className="col-md-4 mb-4">
-              <div className="card">
-                <div className="card-body">
-                  <h3>Advertisement Progress</h3>
-                  <BarChart
-                    width={300}
-                    height={200}
-                    data={adProgressData}
-                    layout="vertical"
-                    margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
-                  >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis type="number" />
-                    <YAxis type="category" dataKey="name" />
-                    <Tooltip />
-                    <Bar dataKey="value" fill="#8884d8" />
-                  </BarChart>
-                </div>
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              textAlign: 'center',
+              backgroundColor: 'rgba(255, 255, 255, 0.8)',
+              border: '1px solid #ddd',
+              borderRadius: '5px',
+              padding: '10px',
+              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+            }}>
+              <h3>Advertisement Progress</h3>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <BarChart
+                  width={300}
+                  height={200}
+                  data={adProgressData}
+                  layout="vertical"
+                  margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
+                  key={animationKey}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis type="number" />
+                  <YAxis type="category" dataKey="name" />
+                  <Tooltip />
+                  <Bar 
+                    dataKey="value" 
+                    fill="#8884d8" 
+                    animationDuration={1000} 
+                    animationEasing="ease-in-out" 
+                  />
+                </BarChart>
               </div>
             </div>
 
-            {/* Advertisement Day By Day Progress - Area Chart */}
-            <div className="col-12 mb-4">
-              <div className="card">
-                <div className="card-body">
-                  <h3>Advertisement Day By Day Progress</h3>
-                  <AreaChart
-                    width={600}
-                    height={200}
-                    data={dayByDayData}
-                    margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
-                  >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="day" />
-                    <YAxis />
-                    <Tooltip />
-                    <Area type="monotone" dataKey="impressions" stroke="#82ca9d" fill="#82ca9d" />
-                  </AreaChart>
-                </div>
-              </div>
+          </div>
+
+          {/* Advertisement Day By Day Progress - Area Chart */}
+          <div style={{
+            textAlign: 'center',
+            backgroundColor: 'rgba(255, 255, 255, 0.8)',
+            border: '1px solid #ddd',
+            borderRadius: '5px',
+            padding: '10px',
+            marginTop: '20px',
+            width: '100%',
+            maxWidth: '600px',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+          }}>
+            <h3>Advertisement Day By Day Progress</h3>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <AreaChart
+                width={600}
+                height={200}
+                data={dayByDayData}
+                margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
+                key={animationKey}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="day" />
+                <YAxis />
+                <Tooltip />
+                <Area 
+                  type="monotone" 
+                  dataKey="impressions" 
+                  stroke="#82ca9d" 
+                  fill="#82ca9d" 
+                  animationDuration={1000} 
+                  animationEasing="ease-in-out"
+                />
+              </AreaChart>
             </div>
           </div>
+
         </section>
       </div>
     </div>

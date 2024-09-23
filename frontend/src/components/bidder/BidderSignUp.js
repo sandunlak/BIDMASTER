@@ -19,10 +19,13 @@ export default function BidderSignUp() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    if (name === "email") {
+      setFormData({ ...formData, [name]: value.toLowerCase() });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
     validateField(name, value);
   };
-
   const handleKeyPress = (e) => {
     if (
       (e.target.name === "firstName" || e.target.name === "lastName") &&
@@ -45,11 +48,11 @@ export default function BidderSignUp() {
           ? ""
           : "Name must contain only letters and spaces.";
         break;
-      case "email":
-        fieldErrors.email = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)
-          ? ""
-          : "Invalid email address.";
-        break;
+        case "email":
+          fieldErrors.email = value.match(/^([a-z0-9._%+-]+)@([a-z0-9-]+\.)+[a-z]{2,}$/)
+            ? ""
+            : "Invalid email address. Please use lowercase letters only.";
+          break;
       case "password":
         fieldErrors.password =
           value.length >= 6 ? "" : "Password must be at least 6 characters.";
@@ -165,70 +168,19 @@ export default function BidderSignUp() {
           </div>
         </div>
         <div className="row">
-          <div className="col-md-6 mb-3 form-group">
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              className="form-control"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-            {errors.email && <div className="text-danger">{errors.email}</div>}
-          </div>
-          <div className="col-md-6 mb-3 form-group">
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              className="form-control"
-              id="username"
-              name="username"
-              value={formData.username}
-              onChange={handleChange}
-              required
-            />
-            {errors.username && (
-              <div className="text-danger">{errors.username}</div>
-            )}
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-md-6 mb-3 form-group">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              className="form-control"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-            {errors.password && (
-              <div className="text-danger">{errors.password}</div>
-            )}
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-md-12 mb-3 form-group">
-            <label htmlFor="address">Address</label>
-            <input
-              type="text"
-              className="form-control"
-              id="address"
-              name="address"
-              value={formData.address}
-              onChange={handleChange}
-              required
-            />
-            {errors.address && (
-              <div className="text-danger">{errors.address}</div>
-            )}
-          </div>
-        </div>
-        <div className="row">
+        <div className="col-md-6 mb-3 form-group">
+  <label htmlFor="email">Email</label>
+  <input
+    type="email"
+    className="form-control"
+    id="email"
+    name="email"
+    value={formData.email}
+    onChange={handleChange}
+    required
+  />
+  {errors.email && <div className="text-danger">{errors.email}</div>}
+</div>
           <div className="col-md-6 mb-3 form-group">
             <label htmlFor="contactInfo">Contact Information</label>
             <input
@@ -250,6 +202,25 @@ export default function BidderSignUp() {
         </div>
         <div className="row">
           <div className="col-md-6 mb-3 form-group">
+            <label htmlFor="gender">Gender</label>
+            <select
+              className="form-control"
+              id="gender"
+              name="gender"
+              value={formData.gender}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Not Disclose">Not Disclose</option>
+            </select>
+            {errors.gender && (
+              <div className="text-danger">{errors.gender}</div>
+            )}
+          </div>
+          <div className="col-md-6 mb-3 form-group">
             <label htmlFor="birthday">Date of Birth</label>
             <input
               type="date"
@@ -263,6 +234,55 @@ export default function BidderSignUp() {
             />
             {errors.birthday && (
               <div className="text-danger">{errors.birthday}</div>
+            )}
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-md-12 mb-3 form-group">
+            <label htmlFor="address">Address</label>
+            <input
+              type="text"
+              className="form-control"
+              id="address"
+              name="address"
+              value={formData.address}
+              onChange={handleChange}
+              required
+            />
+            {errors.address && (
+              <div className="text-danger">{errors.address}</div>
+            )}
+          </div>
+        </div>
+        <div className="row">
+        <div className="col-md-6 mb-3 form-group">
+            <label htmlFor="username">Username</label>
+            <input
+              type="text"
+              className="form-control"
+              id="username"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+              required
+            />
+            {errors.username && (
+              <div className="text-danger">{errors.username}</div>
+            )}
+          </div>
+          <div className="col-md-6 mb-3 form-group">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              className="form-control"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+            {errors.password && (
+              <div className="text-danger">{errors.password}</div>
             )}
           </div>
         </div>

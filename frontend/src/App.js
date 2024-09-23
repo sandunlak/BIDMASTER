@@ -35,7 +35,7 @@ import ImageUpload from './components/TestImageUpload';
 
 import BidderSignUp from './components/bidder/BidderSignUp';
 import RegisterToAuctionAsBidder from "./components/bidder/RegisterToAuctionAsBidder";
-
+import ManageBidders from './components/bidder/ManageBidders';
 
 
 //////////////////// sadun ////////////////////
@@ -66,11 +66,19 @@ import UpdateSalary from "./components/Salary/UpdateSalary";
 
 
 ////////////////////// thaveesha //////////////////////////
+
 import Dashboard from "./components/Dashboard/Dashboard";
-import AdvertismentDetails from "./components/Advertisment/Advertisement";
+import AdvertismentDetails from "./components/AdvertismentDetails/AdvertismentDetails";
 import AddAdvertisment from "./components/AddAdvertisment/AddAdvertisment";
-import UpdateAdvertisement from "./components/UpdateAdvertisement/UpdateAdvertisement"; 
-import ManageBidders from './components/bidder/ManageBidders';
+import UpdateAdvertisement from "./components/UpdateAdvertisement/UpdateAdvertisement";
+ 
+
+
+
+
+
+
+// import AdvertismentDetails from "./components/AdvertismentDetails/AdvertismentDetails";
 
 
 
@@ -185,7 +193,7 @@ function App() {
 
 
         //thaveesha
-          <Route path="/mainDashboard" element={<Dashboard />} />
+        <Route path="/mainDashboard" element={<Dashboard />} />
           <Route path="/AddAdvertisement" element={<AddAdvertisment />} />
           <Route path="/AdvertisementDetails" element={<AdvertismentDetails />} />
           <Route path="/update-advertisement/:id" element={<UpdateAdvertisement />} />

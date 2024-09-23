@@ -75,6 +75,10 @@ function SellerSignUp() {
       (!/[a-z0-9@.]/.test(e.key) && e.key !== "Backspace" && e.key !== "Delete")) {
       e.preventDefault();
   }
+  
+  }
+  if (e.target.name === "address" && !/[a-zA-Z0-9\s,]/.test(e.key)) {
+    e.preventDefault();
   }
   };
 
@@ -114,6 +118,11 @@ function SellerSignUp() {
           fieldErrors.birthday = age >= 16 ? "" : "You must be at least 16 years old.";
           fieldErrors.birthday = isFutureDate ? "Future dates are not allowed." : fieldErrors.birthday;
           break;
+          case "address":
+      fieldErrors.address = value.match(/^[a-zA-Z0-9\s,]*$/)
+        ? ""
+        : "Address can only contain letters, numbers, spaces, and commas.";
+      break;
           
       default:
         fieldErrors[name] = value ? "" : "This field is required.";
@@ -272,6 +281,7 @@ function SellerSignUp() {
               className="form-control"
               id="address"
               name="address"
+              onKeyDown={handleKeyPress} 
               value={formData.address}
               onChange={handleChange}
               
@@ -291,6 +301,7 @@ function SellerSignUp() {
               name="companyName"
               value={formData.companyName}
               onChange={handleChange}
+              onKeyDown={handleKeyPress}
               
             />
             {errors.companyName && (

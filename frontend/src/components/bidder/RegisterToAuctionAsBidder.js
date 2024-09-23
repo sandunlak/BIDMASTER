@@ -58,7 +58,9 @@ export default function RegisterToAuctionAsBidder() {
         navigate("/ItemListView"); // Navigate to ItemListView on success
       })
       .catch((err) => {
-        alert("Error registering for auction: " + err.message);
+        alert("already  registered for this auction");
+        navigate("/ItemListView");
+
       });
   };
 
