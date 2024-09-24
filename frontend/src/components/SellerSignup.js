@@ -59,7 +59,7 @@ function SellerSignUp() {
 
   const handleKeyPress = (e) => {
     // Allow only letters and spaces for name fields
-    if ((e.target.name === "firstName" || e.target.name === "lastName") && !/[a-zA-Z\s]/.test(e.key)) {
+    if ((e.target.name === "firstName" || e.target.name === "lastName" || e.target.name === "companyName") && !/[a-zA-Z\s]/.test(e.key)) {
       e.preventDefault();
     }
     // Allow only digits (0-9) and prevent non-digit input for contactInfo
@@ -80,6 +80,9 @@ function SellerSignUp() {
   if (e.target.name === "address" && !/[a-zA-Z0-9\s,]/.test(e.key)) {
     e.preventDefault();
   }
+  if (e.target.name === "businessAddress" && !/[a-zA-Z0-9\s,]/.test(e.key)) {
+    e.preventDefault();
+  }
   };
 
   const validateField = (name, value) => {
@@ -89,25 +92,27 @@ function SellerSignUp() {
 
       case "firstName":
       case "lastName":
+        case "companyName":
+
         fieldErrors[name] = value.match(/^[a-zA-Z\s]+$/)
           ? ""
-          : "Name must contain only letters and spaces.";
+          : "";
         break;
       case "email":
         fieldErrors.email = value.match(/^(?!@)[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/)
 
           ? ""
-          : "Invalid email address.";
+          : "";
         break;
       case "password":
         fieldErrors.password =
-          value.length >= 6 ? "" : "Password must be at least 6 characters.";
+          value.length >= 6 ? "" : "";
         break;
         case "contactInfo":
       fieldErrors.contactInfo =
         value.match(/^\+94\d{9}$/)
           ? ""
-          : "Contact number must start with +94 and be followed by exactly 9 digits.";
+          : "";
       break;
         case "birthday":
           const today = new Date();
@@ -121,11 +126,16 @@ function SellerSignUp() {
           case "address":
       fieldErrors.address = value.match(/^[a-zA-Z0-9\s,]*$/)
         ? ""
-        : "Address can only contain letters, numbers, spaces, and commas.";
+        : "";
+      break;
+      case "address":
+      fieldErrors.address = value.match(/^[a-zA-Z0-9\s,]*$/)
+        ? ""
+        : "";
       break;
           
       default:
-        fieldErrors[name] = value ? "" : "This field is required.";
+        fieldErrors[name] = value ? "" : "";
         break;
     }
 
@@ -320,6 +330,7 @@ function SellerSignUp() {
               name="businessAddress"
               value={formData.businessAddress}
               onChange={handleChange}
+              onKeyDown={handleKeyPress} 
               
             />
             {errors.businessAddress && (

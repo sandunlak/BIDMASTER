@@ -194,33 +194,35 @@ export default function SellerAccount() {
 
   const generatePDF = () => {
     const doc = new jsPDF();
+    
+    // Add company logo
+    const logo = '/Assests/bid-master-logo-zip-file/png/logo-black.png'; // Replace with your Base64 image string
+    doc.addImage(logo, 'PNG', 70, -10, 60, 60); // Adjust x, y, width, height as needed
 
     // Adding title
     doc.setFontSize(18);
-    doc.text("Analytics Report", 14, 22);
+    doc.text("Analytics Report", 14, 45); // Adjust y position to avoid overlap with logo
 
     // Adding Most Available Item Categories
     doc.setFontSize(14);
-    doc.text("Most Available Item Categories", 14, 40);
-    
+    doc.text("Most Available Item Categories", 14, 55); // Adjust y position accordingly
+
     // Create table from categoryData
     const tableColumn = ["Category", "Count"];
     const tableRows = categoryData.map(cat => [cat._id, cat.count]);
-
-    doc.autoTable(tableColumn, tableRows, { startY: 50 });
+    doc.autoTable(tableColumn, tableRows, { startY: 60 }); // Adjust startY as necessary
 
     // Adding Number of Bidders per Auction
     doc.setFontSize(14);
-    doc.text("Number of Bidders per Auction", 14, doc.lastAutoTable.finalY + 10);
-    
+    doc.text("Number of Bidders per Auction", 14, doc.lastAutoTable.finalY + 10); // Adjust y position
+
     const bidderTableColumn = ["Auction Title", "Number of Bidders"];
     const bidderTableRows = auctionBidderData.map(auction => [auction.title, auction.bidderCount || 0]);
-
     doc.autoTable(bidderTableColumn, bidderTableRows, { startY: doc.lastAutoTable.finalY + 10 });
 
     // Save the PDF
     doc.save("analytics_report.pdf");
-  };
+};
 
 
   return (
