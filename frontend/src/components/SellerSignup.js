@@ -266,6 +266,9 @@ function SellerSignUp() {
               name="country"
               value={formData.country}
               onChange={handleChange}
+              defaultValue={"Sri lanka"}
+              placeholder="Sri Lanka"
+              disabled
               required
             />
             {errors.country && (
@@ -380,7 +383,7 @@ function SellerSignUp() {
               name="birthday"
               value={formData.birthday}
               onChange={handleChange}
-              max={today} // Restrict future dates
+              max={new Date().getFullYear() - 16 + "-12-31"} // Restrict future dates
               required
             />
             {errors.birthday && (
