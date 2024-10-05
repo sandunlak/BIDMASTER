@@ -18,6 +18,7 @@ export default function Login(){
       });
       localStorage.setItem("authToken", response.data.token); // Save token
       localStorage.setItem("Type", "bidder");
+      localStorage.setItem("username", response.data.username)
       navigate("/ItemListView"); 
     } catch (err) {
       console.error(err.response || err.message); // Log the entire error
